@@ -36,10 +36,16 @@ class SudokuGrid:
             self.__grid.append(newRow)
 
     def getGrid(self):
-        pass
+    #This function returns the entire Sudoku Grid
+        return self.__grid
     
     def resetGrid(self):
-        pass
+        for row in range(len(self.__grid)):
+            for cell in range(len(self.__grid[row])):
+                #Iterates through each row and each cell within each row. If the current cell is not a clue, the possibilities of this cell are reset to the digits 1-9
+                if not self.__grid[row][cell].isClue():
+                    self.grid[row][cell].resetPossibilities()
     
     def checkIfSolved(self):
-        pass
+    #This function returns the value of the Boolean isSolved
+        return self.__isSolved
