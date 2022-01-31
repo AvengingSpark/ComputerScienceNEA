@@ -39,6 +39,13 @@ class SudokuGrid:
     #This function returns the entire Sudoku Grid
         return self.__grid
     
+    def printGrid(self):
+        for row in self.__grid:
+            tempString = ""
+            for cell in row:
+                tempString += (f"{cell.getValue()}    ")
+            print(tempString, "\n")
+    
     def resetGrid(self):
         for row in range(len(self.__grid)):
             for cell in range(len(self.__grid[row])):
@@ -52,5 +59,5 @@ class SudokuGrid:
     
     
 test1 = SudokuGrid({})
-print(test1.getGrid())
+test1.printGrid()
 input()
