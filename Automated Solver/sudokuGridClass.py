@@ -49,3 +49,8 @@ class SudokuGrid:
     def checkIfSolved(self):
     #This function returns the value of the Boolean isSolved
         return self.__isSolved
+    
+    
+test1 = SudokuGrid({})
+print(test1.getGrid())
+input()
