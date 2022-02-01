@@ -1,4 +1,4 @@
-class Stragies:
+class Strategies:
     
     def digitInRow(self):
     #Checks within each row of the grid, if a single digit appears in that row, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that row

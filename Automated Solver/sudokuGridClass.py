@@ -1,6 +1,7 @@
 from FieldClass import Field
+from strategiesClass import Strategies
 
-class SudokuGrid:
+class SudokuGrid(Strategies):
     """
     Every instance of this class respresents a Sudoku Grid. There should only be one instance of this class at a time. An object of this class has five attributes:
     Private List Grid - The sudoku __grid. This will be a 2D list, where each nested list represents a row within the __grid, and each element within the nested array points to an instance of the Field class (a cell)
