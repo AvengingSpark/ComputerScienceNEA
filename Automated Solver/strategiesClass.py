@@ -7,13 +7,13 @@ class Strategies:
             digitsToRemove = []
             for cell in range(9):
             #Loops through 9 times as per the number of cells in a row of the sudoku Grid
-                if self.__grid[row][cell].isClue():
-                    digitsToRemove.append(self.__grid[row][cell].getValue())
+                if self.grid[row][cell].isClue():
+                    digitsToRemove.append(self.grid[row][cell].getValue())
             for toRemove in range(len(digitsToRemove)):
             #Loops through as per the number of digits that should be removed from each cell within the Grid
                 for cell in range(9):
                 #Loops through 9 times as per the number of cells in a row of the sudoku Grid
-                    self.__grid[row][cell].removePossibility(toRemove)
+                    self.grid[row][cell].removePossibility(toRemove)
     
     def digitInColumn(self):
     #Checks within each row of the grid, if a single digit appears in that column, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that column
