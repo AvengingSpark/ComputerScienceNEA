@@ -18,7 +18,7 @@ class SudokuGrid:
         self.__isSolved = False
         #Calls generateGrid method to populate the __grid with instances of the class Field.
         self.generateGrid()
-        #This represents all of the boxes within the sudoku grid.
+        #This represents all of the boxes within the sudoku grid. Each nested list represents one of these boxes where the list inside of that list is one of the three rows within that box.
         self.__boxes = [[self.__grid[0][:3], self.__grid[1][:3], self.__grid[2][:3]], [self.__grid[0][3:6], self.__grid[1][3:6], self.__grid[2][3:6]], [self.__grid[0][6:], self.__grid[1][6:], self.__grid[2][6:]], [self.__grid[3][:3], self.__grid[4][:3], self.__grid[5][:3]], [self.__grid[3][3:6], self.__grid[4][3:6], self.__grid[5][3:6]], [self.__grid[3][6:], self.__grid[4][6:], self.__grid[5][6:]], [self.__grid[6][:3], self.__grid[7][:3], self.__grid[8][:3]], [self.__grid[6][3:6], self.__grid[7][3:6], self.__grid[8][3:6]], [self.__grid[6][6:], self.__grid[7][6:], self.__grid[8][6:]]]
         
     def generateGrid(self):
@@ -69,6 +69,6 @@ class SudokuGrid:
         return self.__isSolved
     
     
-test1 = SudokuGrid({})
+test1 = SudokuGrid({"[0][1]": 4, "[0][2]": 9, "[0][6]": 8, "[0][8]": 7, "[1][4]": 1, "[1][6]": 4, "[2][0]": 3, "[2][2]": 2, "[2][5]": 7, "[2][8]": 6, "[3][1]": 6, "[3][2]": 4, "[3][3]": 7, "[3][4]": 2, "[3][5]": 1, "[3][6]": 5, "[3][7]": 3, "[4][0]": 2, "[4][1]": 8, "[4][2]": 5, "[4][3]": 4, "[4][5]": 9, "[4][6]": 7, "[4][7]": 6, "[5][4]": 8, "[5][6]": 2, "[5][7]": 9, "[6][3]": 3, "[6][5]": 4, "[6][6]": 6, "[7][0]": 4, "[7][2]": 8, "[7][3]": 1, "[7][4]": 6, "[8][1]": 3, "[8][8]": 2})
 test1.printBoxes()
 input()
