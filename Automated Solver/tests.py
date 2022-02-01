@@ -10,3 +10,9 @@ from sudokuGridClass import SudokuGrid
 #digitInRowTest.printGrid()
 #print(digitInRowTest.grid[0][4].returnPossibilities())
 #input()
+
+digitInColumnTest = SudokuGrid({"[0][0]": 4, "[1][0]": 1, "[2][0]": 3, "[3][0]": 2, "[5][0]": 9, "[6][0]": 5, "[7][0]": 6, "[8][0]": 7})
+digitInColumnTest.printGrid()
+digitInColumnTest.digitInColumn()
+digitInColumnTest.printGrid()
+input()
