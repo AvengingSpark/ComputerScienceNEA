@@ -32,8 +32,23 @@ class Strategies:
     
     def digitInBox(self):
     #Checks within each row of the grid, if a single digit appears in that box, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that box
-        pass
-    
+        for box in range(9):
+        #Loops through 9 times as per the number of boxes in a sudoku grid, and
+            digitsToRemove = []
+            for row in range(3):
+            #Loops through 3 times as per the number of rows within a box of the sudoku grid
+                for cell in range(3):
+                #Loops through 3 times as per the number of cells within a row of a box within the Grid
+                    if self.boxes[box][row][cell].isClue:
+                        digitsToRemove(self.boxes[box][row][cell].getValue())
+            for toRemove in range(len(digitsToRemove)):
+            #Loops through as per the number of digits that should be removed from each cell within the Grid
+                for row in range(3):
+                #Loops through 3 times as per the number of rows within a box of the sudoku grid
+                    for cell in range(3):
+                    #Loops through 3 times as per the number of cells within a row of a box within the Grid
+                        self.boxes[box][row][cell].removePossibility(digitsToRemove[toRemove])
+                        
     def singleInRow(self):
     #Iterates through each row of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that row, it must be the only location of that digit within that row
         pass
