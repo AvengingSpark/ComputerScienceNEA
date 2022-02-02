@@ -39,8 +39,8 @@ class Strategies:
             #Loops through 3 times as per the number of rows within a box of the sudoku grid
                 for cell in range(3):
                 #Loops through 3 times as per the number of cells within a row of a box within the Grid
-                    if self.boxes[box][row][cell].isClue:
-                        digitsToRemove(self.boxes[box][row][cell].getValue())
+                    if self.boxes[box][row][cell].isClue():
+                        digitsToRemove.append(self.boxes[box][row][cell].getValue())
             for toRemove in range(len(digitsToRemove)):
             #Loops through as per the number of digits that should be removed from each cell within the Grid
                 for row in range(3):
