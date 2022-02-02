@@ -20,7 +20,7 @@ class SudokuGrid(Strategies):
         #Calls generateGrid method to populate the grid with instances of the class Field.
         self.generateGrid()
         #This represents all of the boxes within the sudoku grid. Each nested list represents one of these boxes where the list inside of that list is one of the three rows within that box.
-        self.__boxes = [[self.grid[0][:3], self.grid[1][:3], self.grid[2][:3]], [self.grid[0][3:6], self.grid[1][3:6], self.grid[2][3:6]], [self.grid[0][6:], self.grid[1][6:], self.grid[2][6:]], [self.grid[3][:3], self.grid[4][:3], self.grid[5][:3]], [self.grid[3][3:6], self.grid[4][3:6], self.grid[5][3:6]], [self.grid[3][6:], self.grid[4][6:], self.grid[5][6:]], [self.grid[6][:3], self.grid[7][:3], self.grid[8][:3]], [self.grid[6][3:6], self.grid[7][3:6], self.grid[8][3:6]], [self.grid[6][6:], self.grid[7][6:], self.grid[8][6:]]]
+        self.boxes = [[self.grid[0][:3], self.grid[1][:3], self.grid[2][:3]], [self.grid[0][3:6], self.grid[1][3:6], self.grid[2][3:6]], [self.grid[0][6:], self.grid[1][6:], self.grid[2][6:]], [self.grid[3][:3], self.grid[4][:3], self.grid[5][:3]], [self.grid[3][3:6], self.grid[4][3:6], self.grid[5][3:6]], [self.grid[3][6:], self.grid[4][6:], self.grid[5][6:]], [self.grid[6][:3], self.grid[7][:3], self.grid[8][:3]], [self.grid[6][3:6], self.grid[7][3:6], self.grid[8][3:6]], [self.grid[6][6:], self.grid[7][6:], self.grid[8][6:]]]
         
     def generateGrid(self):
     #This methods populates the sudoku grid with pointer to instances of the Field class.
@@ -49,7 +49,7 @@ class SudokuGrid(Strategies):
     
     def printBoxes(self):
         boxNum = 1
-        for box in self.__boxes:
+        for box in self.boxes:
             print(f"Box {boxNum}")
             boxNum += 1
             for row in box:
