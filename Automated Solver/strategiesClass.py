@@ -51,7 +51,21 @@ class Strategies:
                         
     def singleInRow(self):
     #Iterates through each row of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that row, it must be the only location of that digit within that row
-        pass
+        for row in range(9):
+        #Loops through 9 times as per the number of rows in the Sudoku Grid and
+            occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
+            for cell in range(9):
+            #Loops through 9 times as per the number of cells in a row of the sudoku Grid
+                for possibility in self.grid[row][cell].returnPossibilities():
+                    occurances[possibility].append(f"[{row}][{cell}]")
+            for occurance in occurances:
+                if len(occurances) == 1:
+                    for cell in range(9):
+                    #Loops through 9 times as per the number of cells in a row of the sudoku Grid
+                        if f"[{row}][{cell}]" != occurances[occurance][0]:
+                            for num in range(1,10):
+                                if num != occurance:
+                                    self.grid[row][cell].removePossibility(num)
     
     def singleInColumn(self):
         #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
