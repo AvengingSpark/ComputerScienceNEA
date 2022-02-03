@@ -57,14 +57,17 @@ class Strategies:
             for cell in range(9):
             #Loops through 9 times as per the number of cells in a row of the sudoku Grid
                 for possibility in self.grid[row][cell].returnPossibilities():
-                    occurances[possibility].append(f"[{row}][{cell}]")
+                    if not self.grid[row][cell].isClue():
+                        occurances[possibility].append(f"[{row}][{cell}]")
             for occurance in occurances:
-                if len(occurances) == 1:
+                if len(occurances[occurance]) == 1:
+                    print(occurance)
                     for cell in range(9):
                     #Loops through 9 times as per the number of cells in a row of the sudoku Grid
-                        if f"[{row}][{cell}]" != occurances[occurance][0]:
+                        if (f"[{row}][{cell}]") == occurances[occurance][0]:
                             for num in range(1,10):
                                 if num != occurance:
+                                    print(num)
                                     self.grid[row][cell].removePossibility(num)
     
     def singleInColumn(self):
