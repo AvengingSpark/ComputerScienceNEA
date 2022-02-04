@@ -74,7 +74,8 @@ singleInBoxTest.printGrid()
 singleInBoxTest.digitInRow()
 singleInBoxTest.digitInColumn()
 singleInBoxTest.digitInBox()
-singleInBoxTest.singleInBoxTest()
+singleInBoxTest.singleInBox()
+singleInBoxTest.printGrid()
 
 
 input()
