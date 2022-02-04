@@ -9,6 +9,8 @@ from sudokuGridClass import SudokuGrid
 # digitInRowTest.digitInRow()
 # digitInRowTest.printGrid()
 # print(digitInRowTest.grid[0][4].returnPossibilities())
+
+
 # digitInRowTest = SudokuGrid({"[0][0]": 4, "[0][1]": 1, "[0][2]": 3, "[0][4]": 6, "[0][5]": 2, "[0][6]": 9, "[0][7]": 5, "[0][8]": 7, "[5][0]": 1, "[5][1]": 3, "[5][2]": 6, "[5][3]": 7, "[5][4]": 9, "[5][5]": 4, "[5][7]": 2, "[5][8]": 8})
 # print(digitInRowTest.grid[0][3].returnPossibilities())
 # print(digitInRowTest.grid[5][6].returnPossibilities())
@@ -17,6 +19,8 @@ from sudokuGridClass import SudokuGrid
 # digitInRowTest.printGrid()
 # print(digitInRowTest.grid[0][3].returnPossibilities())
 # print(digitInRowTest.grid[5][6].returnPossibilities())
+
+
 # digitInColumnTest = SudokuGrid({"[0][0]": 4, "[1][0]": 1, "[2][0]": 3, "[3][0]": 2, "[5][0]": 9, "[6][0]": 5, "[7][0]": 6, "[8][0]": 7})
 # digitInColumnTest.printGrid()
 # digitInColumnTest.digitInColumn()
@@ -25,6 +29,8 @@ from sudokuGridClass import SudokuGrid
 # digitInColumnTest.printGrid()
 # digitInColumnTest.digitInColumn()
 # digitInColumnTest.printGrid()
+
+
 # digitInBoxTest = SudokuGrid({"[0][0]": 2, "[0][1]": 8, "[0][2]": 5, "[1][0]": 7, "[1][2]": 4, "[2][0]": 9, "[2][1]": 3, "[2][2]": 1})
 # digitInBoxTest.printGrid()
 # digitInBoxTest.digitInBox()
@@ -33,22 +39,35 @@ from sudokuGridClass import SudokuGrid
 # digitInBoxTest.printGrid()
 # digitInBoxTest.digitInBox()
 # digitInBoxTest.printGrid()
-singleInRowTest = SudokuGrid({"[3][0]": 5, "[3][2]": 9, "[3][3]": 1, "[3][4]": 2, "[3][5]": 8, "[3][7]": 3, "[5][7]": 4})
-singleInRowTest.printGrid()
+
+
+# singleInRowTest = SudokuGrid({"[3][0]": 5, "[3][2]": 9, "[3][3]": 1, "[3][4]": 2, "[3][5]": 8, "[3][7]": 3, "[5][7]": 4})
+# singleInRowTest.printGrid()
 # print(singleInRowTest.grid[3][1].returnPossibilities())
 # print(singleInRowTest.grid[3][6].returnPossibilities())
 # print(singleInRowTest.grid[3][8].returnPossibilities())
-singleInRowTest.digitInRow()
-singleInRowTest.digitInColumn()
-singleInRowTest.digitInBox()
-singleInRowTest.printGrid()
+# singleInRowTest.digitInRow()
+# singleInRowTest.digitInColumn()
+# singleInRowTest.digitInBox()
+# singleInRowTest.printGrid()
 # print(singleInRowTest.grid[3][1].returnPossibilities())
 # print(singleInRowTest.grid[3][6].returnPossibilities())
 # print(singleInRowTest.grid[3][8].returnPossibilities())
-singleInRowTest.singleInRow()
-print("\n"*5)
-singleInRowTest.printGrid()
+# singleInRowTest.singleInRow()
+# print("\n"*5)
+# singleInRowTest.printGrid()
 # print(singleInRowTest.grid[3][1].returnPossibilities())
 # print(singleInRowTest.grid[3][6].returnPossibilities())
 # print(singleInRowTest.grid[3][8].returnPossibilities())
+
+
+singleInColumn = SudokuGrid({"[0][0]": 5, "[1][4]": 8, "[2][0]": 7, "[3][0]": 2, "[4][0]": 1, "[6][0]": 3, "[7][0]": 9, "[7][2]": 8})
+singleInColumn.printGrid()
+singleInColumn.digitInRow()
+singleInColumn.digitInColumn()
+singleInColumn.digitInBox()
+singleInColumn.singleInColumn()
+singleInColumn.printGrid()
+
+
 input()

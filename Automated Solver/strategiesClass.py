@@ -72,7 +72,7 @@ class Strategies:
     #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
         for column in range(9):
         #Iterates through 9 times as per the number of columns in a sudoku grid and
-            occurances = {}
+            occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
             for cell in range(9):
             #Iterates through 9 times as per the number of cells in a column of the sudoku Grid
                 for possibility in self.grid[cell][column].returnPossibilities():
