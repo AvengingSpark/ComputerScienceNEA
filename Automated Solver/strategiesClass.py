@@ -89,4 +89,22 @@ class Strategies:
     
     def singleInBox(self):
     #Iterates through each box of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that box, it must be the only location of that digit within that box
-        pass
+        for box in range(9):
+        #Iterates through 9 times as per the number of boxes in a sudoku grid
+            occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
+            for row in range(3):
+            #Iterates through 3 times as per the number of rows in a box of the sudoku Grid
+                for cell in range(3):
+                #Iterates through 3 times as per the number of cells in a row of a box within the sudoku Grid
+                    for possibility in self.boxes[box][row][cell].returnPossibilities():
+                        occurances[possibility].append(f"[{box}][{row}][{cell}]")
+            for occurance in occurances:
+                if len(occurances[occurance]) == 1:
+                    for row in range(3):
+                    #Loops through 3 times as per the number of rows in a box of the sudoku Grid
+                        for cell in range(3):
+                        #Iterates through 3 times as per the number of cell in a row of a box in the sudoku grid
+                            if (f"[{box}][{row}][{cell}]") == occurances[occurance][0]:
+                                for num in range(1,10):
+                                    if num != occurance:
+                                        self.boxes[box][row][cell].removePossibility(num)

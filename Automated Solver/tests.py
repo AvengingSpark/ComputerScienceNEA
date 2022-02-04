@@ -61,13 +61,20 @@ from sudokuGridClass import SudokuGrid
 # print(singleInRowTest.grid[3][8].returnPossibilities())
 
 
-singleInColumn = SudokuGrid({"[0][0]": 5, "[1][4]": 8, "[2][0]": 7, "[3][0]": 2, "[4][0]": 1, "[6][0]": 3, "[7][0]": 9, "[7][2]": 8})
-singleInColumn.printGrid()
-singleInColumn.digitInRow()
-singleInColumn.digitInColumn()
-singleInColumn.digitInBox()
-singleInColumn.singleInColumn()
-singleInColumn.printGrid()
+# singleInColumnTest = SudokuGrid({"[0][0]": 5, "[1][4]": 8, "[2][0]": 7, "[3][0]": 2, "[4][0]": 1, "[6][0]": 3, "[7][0]": 9, "[7][2]": 8})
+# singleInColumnTest.printGrid()
+# singleInColumnTest.digitInRow()
+# singleInColumnTest.digitInColumn()
+# singleInColumnTest.digitInBox()
+# singleInColumnTest.singleInColumn()
+# singleInColumnTest.printGrid()
+
+singleInBoxTest = SudokuGrid({"[0][0]": 1, "[0][1]": 4, "[0][2]": 5, "[1][1]": 3, "[2][1]": 8, "[2][2]": 9, "[7][0]": 6})
+singleInBoxTest.printGrid()
+singleInBoxTest.digitInRow()
+singleInBoxTest.digitInColumn()
+singleInBoxTest.digitInBox()
+singleInBoxTest.singleInBoxTest()
 
 
 input()
