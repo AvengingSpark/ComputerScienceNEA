@@ -69,13 +69,13 @@ from sudokuGridClass import SudokuGrid
 # singleInColumnTest.singleInColumn()
 # singleInColumnTest.printGrid()
 
-singleInBoxTest = SudokuGrid({"[0][0]": 1, "[0][1]": 4, "[0][2]": 5, "[1][1]": 3, "[2][1]": 8, "[2][2]": 9, "[7][0]": 6})
-singleInBoxTest.printGrid()
-singleInBoxTest.digitInRow()
-singleInBoxTest.digitInColumn()
-singleInBoxTest.digitInBox()
-singleInBoxTest.singleInBox()
-singleInBoxTest.printGrid()
+# singleInBoxTest = SudokuGrid({"[0][0]": 1, "[0][1]": 4, "[0][2]": 5, "[1][1]": 3, "[2][1]": 8, "[2][2]": 9, "[7][0]": 6})
+# singleInBoxTest.printGrid()
+# singleInBoxTest.digitInRow()
+# singleInBoxTest.digitInColumn()
+# singleInBoxTest.digitInBox()
+# singleInBoxTest.singleInBox()
+# singleInBoxTest.printGrid()
 
 
 input()
