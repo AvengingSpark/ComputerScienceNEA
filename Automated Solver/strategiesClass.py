@@ -61,18 +61,31 @@ class Strategies:
                         occurances[possibility].append(f"[{row}][{cell}]")
             for occurance in occurances:
                 if len(occurances[occurance]) == 1:
-                    print(occurance)
                     for cell in range(9):
                     #Loops through 9 times as per the number of cells in a row of the sudoku Grid
                         if (f"[{row}][{cell}]") == occurances[occurance][0]:
                             for num in range(1,10):
                                 if num != occurance:
-                                    print(num)
                                     self.grid[row][cell].removePossibility(num)
     
     def singleInColumn(self):
-        #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
-        pass
+    #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
+        for column in range(9):
+        #Iterates through 9 times as per the number of columns in a sudoku grid and
+            occurances = {}
+            for cell in range(9):
+            #Iterates through 9 times as per the number of cells in a column of the sudoku Grid
+                for possibility in self.grid[cell][column].returnPossibilities():
+                    if not self.grid[cell][column].isClue():
+                        occurances[possibility].append(f"[{cell}][{column}]")
+            for occurance in occurances:
+                if len(occurances[occurance]) == 1:
+                    for cell in range(9):
+                    #Iterates through 9 times as per the number of cells in a column of the sudoku Grid
+                        if (f"[{cell}][{column}]") == occurances[occurance][0]:
+                            for num in range(1,10):
+                                if num != occurance:
+                                    self.grid[cell][column].removePossibility(num)
     
     def singleInBox(self):
     #Iterates through each box of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that box, it must be the only location of that digit within that box
