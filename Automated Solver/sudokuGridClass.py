@@ -4,11 +4,11 @@ from strategiesClass import Strategies
 class SudokuGrid(Strategies):
     """
     Every instance of this class respresents a Sudoku Grid. There should only be one instance of this class at a time. An object of this class has five attributes:
-    Private List Grid - The sudoku grid. This will be a 2D list, where each nested list represents a row within the grid, and each element within the nested array points to an instance of the Field class (a cell)
+    Pbulic List Grid - The sudoku grid. This will be a 2D list, where each nested list represents a row within the grid, and each element within the nested array points to an instance of the Field class (a cell)
     Private Integer numOfClues - This represents the number of clues that are in the sudoku grid. For a sudoku grid to be solvable, there must be at least 17 clues in the grid. This enables there to be a check whenever a grid is initialised that there are at least 17 clues on the grid.
-    Private Dictionary clueLocations - This will represent where every clue is located on the grid. It will be formatted as '"[row][cell]": value'. This will be used when generating the grid to defined what cells can be edited or cannot be edited.
+    Private String clueLocations - This represents the locations of all the clues on the grid. This string should be 81 digits, with a zero suggesting that a cell has not be assigned a value, and the cell has a value, it is treated as a clue.
     Private Boolean isSolved - This boolean shows whether the puzzle has been solved or not. Depending on whether all of the cells in the grid have been filled.
-    Private Array Boxes - This 3D array represents the 9 3x3 boxes that make up a sudoku grid. Each inital nested array refers to one of the 9 boxes, where the other array is a row in the box and each element in a row points to an instance of the class Field
+    Public Array Boxes - This 3D array represents the 9 3x3 boxes that make up a sudoku grid. Each inital nested array refers to one of the 9 boxes, where the other array is a row in the box and each element in a row points to an instance of the class Field
     """
 
     def __init__(self, clueLocations):
@@ -24,17 +24,12 @@ class SudokuGrid(Strategies):
         
     def generateGrid(self):
     #This methods populates the sudoku grid with pointer to instances of the Field class.
-        for row in range(9):
-            #Loops through 9 times corresponding the 9 row in a sudoku grid
-            newRow = []
-            for cell in range(9):
-                #Loops through 9 times corresponding the 9 cells in a row of the sudoku grid.
-                if f"[{row}][{cell}]" in self.__clueLocations:
-                    #Checks whether the cell is in the dictionary of clue locations using the same string format - if it is, the instance of the field class for that cell will be considered a clue and have a non-0 value.
-                    newRow.append(Field(self.__clueLocations[f"[{row}][{cell}]"]))
-                else:
-                    newRow.append(Field())
-            self.grid.append(newRow)
+        for num in range(len(self.__clueLocations)):
+        #Loops through each digit within the clue locations and adds the grid
+            if num % 9 == 0:
+            #If the number is a multiple of 9, it implies that the number is at the start of a new row. A new sub-list is appended to the end of the grid attribute to mirror this.
+                self.grid.append([])
+            self.grid[-1].append(Field(int(self.__clueLocations[num])))
 
     def getGrid(self):
     #This function returns the entire Sudoku Grid

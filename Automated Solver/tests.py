@@ -77,5 +77,7 @@ from sudokuGridClass import SudokuGrid
 # singleInBoxTest.singleInBox()
 # singleInBoxTest.printGrid()
 
-
+testInput = SudokuGrid("000003600031642800007090004000407098000500006006000702090000507042010000670908400")
+# print(testInput.getGrid())
+testInput.printGrid()
 input()
