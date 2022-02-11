@@ -21,15 +21,21 @@ class SudokuGrid(Strategies):
         self.generateGrid()
         #This represents all of the boxes within the sudoku grid. Each nested list represents one of these boxes where the list inside of that list is one of the three rows within that box.
         self.boxes = [[self.grid[0][:3], self.grid[1][:3], self.grid[2][:3]], [self.grid[0][3:6], self.grid[1][3:6], self.grid[2][3:6]], [self.grid[0][6:], self.grid[1][6:], self.grid[2][6:]], [self.grid[3][:3], self.grid[4][:3], self.grid[5][:3]], [self.grid[3][3:6], self.grid[4][3:6], self.grid[5][3:6]], [self.grid[3][6:], self.grid[4][6:], self.grid[5][6:]], [self.grid[6][:3], self.grid[7][:3], self.grid[8][:3]], [self.grid[6][3:6], self.grid[7][3:6], self.grid[8][3:6]], [self.grid[6][6:], self.grid[7][6:], self.grid[8][6:]]]
+      
+    def __del__(self):
+        print("Grid deleted")
         
     def generateGrid(self):
     #This methods populates the sudoku grid with pointer to instances of the Field class.
-        for num in range(len(self.__clueLocations)):
-        #Loops through each digit within the clue locations and adds the grid
-            if num % 9 == 0:
-            #If the number is a multiple of 9, it implies that the number is at the start of a new row. A new sub-list is appended to the end of the grid attribute to mirror this.
-                self.grid.append([])
-            self.grid[-1].append(Field(int(self.__clueLocations[num])))
+        if self.isSolveable():
+            for num in range(len(self.__clueLocations)):
+            #Loops through each digit within the clue locations and adds the grid
+                if num % 9 == 0:
+                #If the number is a multiple of 9, it implies that the number is at the start of a new row. A new sub-list is appended to the end of the grid attribute to mirror this.
+                    self.grid.append([])
+                self.grid[-1].append(Field(int(self.__clueLocations[num])))
+        else:
+            self.__del__()
 
     def getGrid(self):
     #This function returns the entire Sudoku Grid
