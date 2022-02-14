@@ -77,7 +77,16 @@ from sudokuGridClass import SudokuGrid
 # singleInBoxTest.singleInBox()
 # singleInBoxTest.printGrid()
 
-testInput = SudokuGrid("000003600031642800007090004000407098000500006006000702090000507042010000670908400")
-# print(testInput.getGrid())
-testInput.printGrid()
+# testInput = SudokuGrid("000003600031642800007090004000407098000500006006000702090000507042010000670908400")
+# # print(testInput.getGrid())
+# testInput.printGrid()
+
+# clashInRowTest = SudokuGrid("040000400000000000200200000000000000001000001000000000000000000000500050000000000")
+# clashInRowTest.printGrid()
+# clashInRowTest.checkClashesInRow()
+
+clashInColumnTest = SudokuGrid("010400009000002000000000000010000009000400000000002000010002000000000009000400000")
+clashInColumnTest.printGrid()
+clashInColumnTest.checkClashesInColumn()
+
 input()

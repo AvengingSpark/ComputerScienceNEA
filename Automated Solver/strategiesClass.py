@@ -108,3 +108,31 @@ class Strategies:
                                 for num in range(1,10):
                                     if num != occurance:
                                         self.boxes[box][row][cell].removePossibility(num)
+                                        
+                                        
+    def checkClashesInRow(self):
+        clash = False
+        #Searches through every row of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
+        for row in range(len(self.grid)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for cell in range(len(self.grid[row])):
+                occurances[self.grid[row][cell].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in row: {row+1}")
+        return clash
+    
+    def checkClashesInColumn(self):
+        clash = False
+        #Searches through every column of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
+        for column in range(len(self.grid)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for cell in range(len(self.grid[column])):
+                occurances[self.grid[cell][column].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in column: {column+1}")
+        return clash
+    
+    def checkClashesInBox(self):
+        pass

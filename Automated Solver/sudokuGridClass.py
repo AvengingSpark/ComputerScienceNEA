@@ -25,6 +25,12 @@ class SudokuGrid(Strategies):
     def __del__(self):
         print("Grid deleted")
         
+    def isSolveable(self):
+        if self.__numOfClues >= 17:
+            return True
+        else:
+            return False
+        
     def generateGrid(self):
     #This methods populates the sudoku grid with pointer to instances of the Field class.
         if self.isSolveable():
