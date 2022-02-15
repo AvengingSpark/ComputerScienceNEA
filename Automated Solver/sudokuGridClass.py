@@ -1,5 +1,6 @@
 from FieldClass import Field
 from strategiesClass import Strategies
+import os
 
 class SudokuGrid(Strategies):
     """
@@ -14,7 +15,7 @@ class SudokuGrid(Strategies):
     def __init__(self, clueLocations):
         #The clueLocations parameter is a dictionary which refers to the different clues in the sudoku grid. 
         self.grid = []
-        self.__numOfClues = len(clueLocations)
+        self.__numOfClues = 0
         self.__clueLocations = clueLocations
         self.__isSolved = False
         #Calls generateGrid method to populate the grid with instances of the class Field.
@@ -25,8 +26,14 @@ class SudokuGrid(Strategies):
     def __del__(self):
         print("Grid deleted")
         
+    def calculateClues(self):
+        for f in range(len(self.__clueLocations)):
+            if self.__clueLocations[f] != "0":
+                self.__numOfClues += 1
+    
     def isSolveable(self):
-        if self.__numOfClues >= 17:
+        self.calculateClues()
+        if self.__numOfClues >= 17 and self.__numOfClues <= 81:
             return True
         else:
             return False
@@ -46,6 +53,13 @@ class SudokuGrid(Strategies):
     def getGrid(self):
     #This function returns the entire Sudoku Grid
         return self.grid
+    
+    def getGridValues(self):
+        lst = []
+        for row in self.grid:
+            for cell in row:
+                lst.append(cell.getValue())
+        return lst
     
     def printGrid(self):
         for row in self.grid:
@@ -74,4 +88,43 @@ class SudokuGrid(Strategies):
     
     def checkIfSolved(self):
     #This function returns the value of the Boolean isSolved
-        return self.__isSolved
+        knownDigits = 0
+        for row in self.grid:
+            for cell in row:
+                if cell.getValue() != 0:
+                    knownDigits += 1
+        
+        if knownDigits == 81:
+            self.__isSolved = True
+            return True
+        else:
+            return False
+
+
+    def mainLoop(self):
+        while not self.checkIfSolved():
+            print("\n"*10)
+            self.checkClashes()
+            self.removeDigits()
+            self.printGrid()
+            if self.singleInRow():
+                self.printGrid()
+                continue
+            elif self.singleInColumn():
+                self.printGrid()
+                continue
+            elif self.singleInBox():
+                self.printGrid()
+                continue
+            self.checkIfSolved()
+                
+        # os.system("cls")
+        print("\n"*50)
+        if not self.checkClashes():
+            print("Finished Solution:")
+            self.printGrid()
+            input()
+        else:
+            print("YOU BROKE IT")
+            self.printGrid()
+            input()

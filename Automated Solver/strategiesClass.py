@@ -2,36 +2,47 @@ class Strategies:
     
     def digitInRow(self):
     #Checks within each row of the grid, if a single digit appears in that row, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that row
+        starterGrid = self.getGridValues()
         for row in range(9):
         #Loops through 9 times as per the number of rows in a sudoku puzzle
             digitsToRemove = []
             for cell in range(9):
             #Loops through 9 times as per the number of cells in a row of the sudoku Grid
-                if self.grid[row][cell].isClue():
+                if len(self.grid[row][cell].returnPossibilities()) == 1:
                     digitsToRemove.append(self.grid[row][cell].getValue())
             for toRemove in range(len(digitsToRemove)):
             #Loops through as per the number of digits that should be removed from each cell within the Grid
                 for cell in range(9):
                 #Loops through 9 times as per the number of cells in a row of the sudoku Grid
                     self.grid[row][cell].removePossibility(digitsToRemove[toRemove])
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
     
     def digitInColumn(self):
     #Checks within each row of the grid, if a single digit appears in that column, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that column
+        starterGrid = self.getGridValues()
         for column in range(9):
         #Loops through 9 times as per the number of columns in a sudoku grid
             digitsToRemove = []
             for cell in range(9):
             #Loops through 9 times as per the number of cells in a column of the sudoku Grid
-                if self.grid[cell][column].isClue():
+                if len(self.grid[cell][column].returnPossibilities()) == 1:
                     digitsToRemove.append(self.grid[cell][column].getValue())
             for toRemove in range(len(digitsToRemove)):
             #Loops through as per the number of digits that should be removed from each cell within the Grid
                 for cell in range(9):
                 #Loops through 9 times as per the number of cells in a column of the sudoku Grid
                     self.grid[cell][column].removePossibility(digitsToRemove[toRemove])
-    
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
+
     def digitInBox(self):
     #Checks within each row of the grid, if a single digit appears in that box, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that box
+        starterGrid = self.getGridValues()
         for box in range(9):
         #Loops through 9 times as per the number of boxes in a sudoku grid, and
             digitsToRemove = []
@@ -39,7 +50,7 @@ class Strategies:
             #Loops through 3 times as per the number of rows within a box of the sudoku grid
                 for cell in range(3):
                 #Loops through 3 times as per the number of cells within a row of a box within the Grid
-                    if self.boxes[box][row][cell].isClue():
+                    if len(self.boxes[box][row][cell].returnPossibilities()) == 1:
                         digitsToRemove.append(self.boxes[box][row][cell].getValue())
             for toRemove in range(len(digitsToRemove)):
             #Loops through as per the number of digits that should be removed from each cell within the Grid
@@ -48,9 +59,14 @@ class Strategies:
                     for cell in range(3):
                     #Loops through 3 times as per the number of cells within a row of a box within the Grid
                         self.boxes[box][row][cell].removePossibility(digitsToRemove[toRemove])
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
                         
     def singleInRow(self):
     #Iterates through each row of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that row, it must be the only location of that digit within that row
+        starterGrid = self.getGridValues()
         for row in range(9):
         #Loops through 9 times as per the number of rows in the Sudoku Grid and
             occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
@@ -67,9 +83,14 @@ class Strategies:
                             for num in range(1,10):
                                 if num != occurance:
                                     self.grid[row][cell].removePossibility(num)
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
     
     def singleInColumn(self):
     #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
+        starterGrid = self.getGridValues()
         for column in range(9):
         #Iterates through 9 times as per the number of columns in a sudoku grid and
             occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
@@ -86,9 +107,14 @@ class Strategies:
                             for num in range(1,10):
                                 if num != occurance:
                                     self.grid[cell][column].removePossibility(num)
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
     
     def singleInBox(self):
     #Iterates through each box of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that box, it must be the only location of that digit within that box
+        starterGrid = self.getGridValues()
         for box in range(9):
         #Iterates through 9 times as per the number of boxes in a sudoku grid
             occurances = {1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [], 8: [], 9: []}
@@ -108,7 +134,10 @@ class Strategies:
                                 for num in range(1,10):
                                     if num != occurance:
                                         self.boxes[box][row][cell].removePossibility(num)
-                                        
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
                                         
     def checkClashesInRow(self):
         clash = False
@@ -146,3 +175,11 @@ class Strategies:
                     print(f"Clash in box {box+1}")
                     clash = True
         return clash
+    
+    def checkClashes(self):
+        return self.checkClashesInRow() or self.checkClashesInColumn() or self.checkClashesInBox()
+        
+    def removeDigits(self):
+        changeMade = self.digitInRow()
+        changeMade = self.digitInColumn()
+        changeMade = self.digitInBox()

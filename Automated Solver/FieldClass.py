@@ -41,11 +41,14 @@ class Field:
             try:
                 self.__possibilities.remove(digit)
                 self.checkValue()
-                print(f"{digit} has been removed from cell")
+                # print(f"{digit} has been removed from cell")
+                return True
             except ValueError:
-                print(f"{digit} is not a possibility in cell")
+                # print(f"{digit} is not a possibility in cell")
+                return False
         else:
-            print("Cell has an absolute value")
+            # print("Cell has an absolute value")
+            return False
     
     def resetPossibilities(self):
     #Checks whether the cell is a clue. If it is, it will be passed over. If not, it resets the list of possibilities to be the digits from 1-9.
