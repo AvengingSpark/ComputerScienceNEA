@@ -135,4 +135,14 @@ class Strategies:
         return clash
     
     def checkClashesInBox(self):
-        pass
+        clash = False
+        for box in range(len(self.boxes)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for row in range(len(self.boxes[box])):
+                for cell in range(len(self.boxes[box][row])):
+                    occurances[self.boxes[box][row][cell].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in box {box+1}")
+                    clash = True
+        return clash
