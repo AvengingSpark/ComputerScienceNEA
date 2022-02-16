@@ -180,6 +180,6 @@ class Strategies:
         return self.checkClashesInRow() or self.checkClashesInColumn() or self.checkClashesInBox()
         
     def removeDigits(self):
-        changeMade = self.digitInRow()
-        changeMade = self.digitInColumn()
-        changeMade = self.digitInBox()
+        self.digitInRow()
+        self.digitInColumn()
+        self.digitInBox()

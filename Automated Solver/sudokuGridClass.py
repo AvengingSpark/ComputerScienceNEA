@@ -55,11 +55,11 @@ class SudokuGrid(Strategies):
         return self.grid
     
     def getGridValues(self):
-        lst = []
+        toReturn = []
         for row in self.grid:
             for cell in row:
-                lst.append(cell.getValue())
-        return lst
+                toReturn.append(cell.getValue())
+        return toReturn
     
     def printGrid(self):
         for row in self.grid:
@@ -104,7 +104,9 @@ class SudokuGrid(Strategies):
     def mainLoop(self):
         while not self.checkIfSolved():
             print("\n"*10)
-            self.checkClashes()
+            if self.checkClashes():
+                print("Puzzle broken")
+                break
             self.removeDigits()
             self.printGrid()
             if self.singleInRow():
@@ -125,6 +127,6 @@ class SudokuGrid(Strategies):
             self.printGrid()
             input()
         else:
-            print("YOU BROKE IT")
+            print("PUZZLE BROKEN")
             self.printGrid()
             input()
