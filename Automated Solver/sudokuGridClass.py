@@ -108,14 +108,22 @@ class SudokuGrid(Strategies):
                 print("Puzzle broken")
                 break
             self.removeDigits()
+            print("\n")
             self.printGrid()
+            print("\n")
             if self.singleInRow():
+                print("Single In Row:")
+                print("\n")
                 self.printGrid()
                 continue
             elif self.singleInColumn():
+                print("\n")
+                print("Single In Column:")
                 self.printGrid()
                 continue
             elif self.singleInBox():
+                print("\n")
+                print("Single In Box:")
                 self.printGrid()
                 continue
             self.checkIfSolved()
