@@ -1,5 +1,5 @@
 from tkinter import *
-from 
+from sudokuGridClass import SudokuGrid
 
 class UI:
     
@@ -48,9 +48,9 @@ class sudokuBoard(UI):
         super().__init__()
         self.createCanvas(self.WIDTH, self.HEIGHT, self.root)
         self.placeCanvas(self.canvasList[0], CENTER)
-        self.createButton(1400, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
-        self.createEntry(1400, 350)
-        self.createButton(1400, 250, "Enter puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
+        self.createButton(1350, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
+        self.createEntry(1350, 350)
+        self.createButton(1350, 250, "Enter puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
         self.createCells()
         for f in range(len(self.canvasList)):
             self.root.bind("<Double-Button-1>", lambda event: self.deselect())
@@ -170,9 +170,10 @@ class sudokuBoard(UI):
             self.deleteNum(f+1)
             if puzzle[f] != "0":
                 self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("Comic Sans MS", 35), tag="num")
+            self.grid[f] = puzzle[f]
 
     def createEntry(self, x, y):
-        entry = Entry(self.root, font=("Comic Sans MS", 10), width=60)
+        entry = Entry(self.root, font=("Comic Sans MS", 7), width=85)
         self.entryList.append(entry)
         entry.place(x=x, y=y)
 
@@ -181,6 +182,6 @@ class sudokuBoard(UI):
         button.place(x=x, y=y)
         
     def autosolve(self):
-        pass
-        
-thing = sudokuBoard()
+        puzzle = SudokuGrid(self.returnGrid())
+        self.updateGrid(puzzle.mainLoop())
+    
