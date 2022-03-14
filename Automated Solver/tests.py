@@ -89,8 +89,8 @@ from sudokuGridClass import SudokuGrid
 # clashInColumnTest.printGrid()
 # clashInColumnTest.checkClashesInColumn()
 
-clashInBoxTest = SudokuGrid("100000005010000000000000500000040000000000000000400000200000000000000000002000000000")
-clashInBoxTest.printGrid()
-clashInBoxTest.checkClashesInBox()
+# clashInBoxTest = SudokuGrid("100000005010000000000000500000040000000000000000400000200000000000000000002000000000")
+# clashInBoxTest.printGrid()
+# clashInBoxTest.checkClashesInBox()
 
 input()
