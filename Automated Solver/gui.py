@@ -12,6 +12,7 @@ class UI:
         self.canvasList = []
         self.lineList = []
         self.entryList = []
+        self.textList = []
         
         self.grid = ["0" for f in range(81)]
         
@@ -40,8 +41,6 @@ class UI:
     def createWindow(self):
         self.root.mainloop()
             
-            
-            
 class sudokuBoard(UI):
     
     def __init__(self):
@@ -54,9 +53,23 @@ class sudokuBoard(UI):
         self.createCells()
         for f in range(len(self.canvasList)):
             self.root.bind("<Double-Button-1>", lambda event: self.deselect())
-            self.canvasList[f].bind("<Button-1>", lambda event, f=f: self.selected(f))
-            self.canvasList[f].bind("<Any-KeyPress>", lambda event, f=f: self.keyTyped(f, event.char, event))
-            self.canvasList[f].bind("<BackSpace>", lambda event, f=f: self.deleteNum(f, event))
+            self.canvasList[f].bind("<Button-1>", lambda event, f=f: self.selectedSingle(f))
+            self.canvasList[f].bind("<Up>", lambda event, f=f: self.upCell(f))
+            self.canvasList[f].bind("<Down>", lambda event, f=f: self.downCell(f))
+            self.canvasList[f].bind("<Left>", lambda event, f=f: self.leftCell(f))
+            self.canvasList[f].bind("<Right>", lambda event, f=f: self.rightCell(f))
+            self.canvasList[f].bind("<Control-Up>", lambda event, f=f: self.upCellSelect(f))
+            self.canvasList[f].bind("<Control-Down>", lambda event, f=f: self.downCellSelect(f))
+            self.canvasList[f].bind("<Control-Left>", lambda event, f=f: self.leftCellSelect(f))
+            self.canvasList[f].bind("<Control-Right>", lambda event, f=f: self.rightCellSelect(f))
+            self.canvasList[f].bind("<Shift-Button-1>", lambda event: self.selecting())
+            self.canvasList[f].bind("<Control-Button-1>", lambda event, f=f: self.selectedMultiple(f))
+            self.canvasList[f].bind("<Any-KeyPress>", lambda event: self.keyTyped(event.char, event))
+            self.root.bind("<Control-Any-KeyPress>", lambda event: self.cornerPencil())
+            self.root.bind("<Alt-Any-KeyPress>", lambda event: self.centerPencil())
+            self.canvasList[f].bind("<Control-Any-KeyPress>", lambda event: self.cornerKey(event.keysym, event))
+            self.canvasList[f].bind("<Alt-Any-KeyPress>", lambda event: self.centerKey(event.keysym, event))
+            self.canvasList[f].bind("<BackSpace>", lambda event: self.deleteNum(event))
         self.createWindow()
     
     def createLines(self, num):
@@ -136,52 +149,121 @@ class sudokuBoard(UI):
                 yCoord = (self.WIDTH*((g)/9))
                 self.placeCanvasCoords(self.canvasList[(f*9)+g+1], yCoord, xCoord)
                 
-    def selected(self, f):
+    def selectedSingle(self, f):
         self.canvasList[f].configure(bg="white")
         self.canvasList[f].focus_set()
         for i in range(len(self.canvasList)):
             if self.canvasList[i]["background"] == "white" and f!=i:
                 self.canvasList[i].configure(bg="grey")
-                
+            
+    def selectedMultiple(self, f):
+        self.canvasList[f].configure(bg="white")
+        self.canvasList[f].focus_set()
+            
     def deselect(self):
         for f in range(len(self.canvasList)):
             self.canvasList[f].configure(bg="grey")
             
-    def keyTyped(self, f, letter, event=None):
-        if self.canvasList[f]["background"] == "white" and letter.isdigit() and letter != "0" and len(self.canvasList[f].find_all()) == 4:
-            self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="black", font=("Comic Sans MS", 35), tag="num")
-            self.grid[f-1] = letter
-        elif len(self.canvasList[f].find_all()) > 4 and letter.isdigit() and letter != "0":
-            while len(self.canvasList[f].find_all()) > 4:
-                self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
-            self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="black", font=("Comic Sans MS", 35), tag="num")
-            self.grid[f-1] = letter
-            
-    def deleteNum(self, f, event=None):
-        while len(self.canvasList[f].find_all()) > 4:
-            self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
-        self.grid[f-1] = "0"
+    def keyTyped(self, letter, event=None):
+        for f in range(len(self.canvasList)):
+            if self.canvasList[f]["background"] == "white" and letter.isdigit() and letter != "0" and len(self.canvasList[f].find_all()) == 4:
+                self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="num")
+                self.grid[f-1] = letter
+            elif len(self.canvasList[f].find_all()) > 4 and letter.isdigit() and letter != "0" and self.canvasList[f]["background"] == "white":
+                while len(self.canvasList[f].find_all()) > 4:
+                    self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
+                self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="num")
+                self.grid[f-1] = letter
+                
+    def cornerKey(self, letter, event=None):
+        for f in range(len(self.canvasList)):
+            if len(self.canvasList[f].find_all()) >= 4 and letter.isdigit() and letter != "0" and self.canvasList[f]["background"] == "white":
+                self.canvasList[f].create_text(((8.7*int(letter))),13, text=letter, anchor=CENTER, fill="black", font=("OCR A Extended", 12), tag="num")
         
+    def centerKey(self, letter, event=None):
+        for f in range(len(self.canvasList)):
+            if len(self.canvasList[f].find_all()) >= 4 and letter.isdigit() and letter != "0" and self.canvasList[f]["background"] == "white":
+                self.canvasList[f].create_text((30+(12*((int(letter)-1)%3))),(30+(12*((int(letter)-1)//3))), text=letter, anchor=CENTER, fill="black", font=("OCR A Extended", 8), tag="num")
+            
+    def deleteNum(self, event=None):
+        for f in range(len(self.canvasList)):
+            if self.canvasList[f]["background"] == "white":
+                while len(self.canvasList[f].find_all()) > 4:
+                    self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
+                self.grid[f-1] = "0"
+                
+    def upCell(self, f):
+        self.canvasList[f].configure(bg="grey")
+        self.canvasList[((f-9)%82)].configure(bg="white")
+        self.canvasList[((f-9)%82)].focus_set()
+    
+    def downCell(self, f):
+        self.canvasList[f].configure(bg="grey")
+        self.canvasList[((f+9)%82)].configure(bg="white")
+        self.canvasList[((f+9)%82)].focus_set()
+        
+    def leftCell(self, f):
+        self.canvasList[f].configure(bg="grey")
+        self.canvasList[((f-1)%82)].configure(bg="white")
+        self.canvasList[((f-1)%82)].focus_set()
+        
+    def rightCell(self, f):
+        self.canvasList[f].configure(bg="grey")
+        self.canvasList[((f+1)%82)].configure(bg="white")
+        self.canvasList[((f+1)%82)].focus_set()
+        
+    def upCellSelect(self, f):
+        self.canvasList[((f-9)%82)].configure(bg="white")
+        self.canvasList[((f-9)%82)].focus_set()
+    
+    def downCellSelect(self, f):
+        self.canvasList[((f+9)%82)].configure(bg="white")
+        self.canvasList[((f+9)%82)].focus_set()
+        
+    def leftCellSelect(self, f):
+        self.canvasList[((f-1)%82)].configure(bg="white")
+        self.canvasList[((f-1)%82)].focus_set()
+        
+    def rightCellSelect(self, f):
+        self.canvasList[((f+1)%82)].configure(bg="white")
+        self.canvasList[((f+1)%82)].focus_set()
+        
+    def deleteText(self):
+        for f in range(len(self.textList)):
+            self.textList[f].destroy()
+        
+    def cornerPencil(self):
+        self.textList.append(Label(self.root, bg="red", text="Pencil Marks in corner"))
+        self.textList[-1].place(x=100, y=100)
+        self.root.bind("<KeyRelease-Control_L>", lambda event: self.deleteText())
+        self.root.bind("<KeyRelease-Control_R>", lambda event: self.deleteText())
+        
+    def centerPencil(self):
+        self.textList.append(Label(self.root, bg="red", text="Pencil Marks in center"))
+        self.textList[-1].place(x=100, y=200)
+        self.root.bind("<KeyRelease-Alt_L>", lambda event: self.deleteText())
+        self.root.bind("<KeyRelease-Alt_R>", lambda event: self.deleteText())  
+    
     def returnGrid(self):
         return "".join(self.grid)
     
     def updateGrid(self, puzzle=None):
         for f in range(len(puzzle)):
-            self.deleteNum(f+1)
+            if len(self.canvasList[f+1].find_all()) > 4:
+                self.canvasList[f+1].delete(self.canvasList[f+1].find_all()[-1])
             if puzzle[f] != "0":
-                self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("Comic Sans MS", 35), tag="num")
+                self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 35), tag="num")
             self.grid[f] = puzzle[f]
 
     def createEntry(self, x, y):
-        entry = Entry(self.root, font=("Comic Sans MS", 7), width=85)
+        entry = Entry(self.root, font=("OCR A Extended", 7), width=85)
         self.entryList.append(entry)
         entry.place(x=x, y=y)
 
     def createButton(self, x, y, text, command=None):
-        button = Button(self.root, bg="#00f957", activebackground="red", text=text, relief="flat", overrelief="flat", padx="10p", pady="5p", font=("Comic Sans MS", 25), command=command)
+        button = Button(self.root, bg="#00f957", activebackground="red", text=text, relief="flat", overrelief="flat", padx="10p", pady="5p", font=("OCR A Extended", 25), command=command)
         button.place(x=x, y=y)
         
     def autosolve(self):
         puzzle = SudokuGrid(self.returnGrid())
         self.updateGrid(puzzle.mainLoop())
-    
