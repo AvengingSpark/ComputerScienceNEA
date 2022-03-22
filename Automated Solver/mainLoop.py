@@ -9,5 +9,9 @@ def main():
   puzzle.mainLoop()
   
 
-if __name__ == "__main__":
-  main()
+def hell():
+  puzzle = SudokuGrid("000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+  puzzle.returnClashes()
+  
+  
+hell()

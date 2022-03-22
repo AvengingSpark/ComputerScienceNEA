@@ -1,5 +1,5 @@
 class Strategies:
-    
+
     def digitInRow(self):
     #Checks within each row of the grid, if a single digit appears in that row, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that row
         starterGrid = self.getGridValues()
@@ -19,7 +19,7 @@ class Strategies:
             return False
         else:
             return True
-    
+
     def digitInColumn(self):
     #Checks within each row of the grid, if a single digit appears in that column, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that column
         starterGrid = self.getGridValues()
@@ -63,7 +63,7 @@ class Strategies:
             return False
         else:
             return True
-                        
+
     def singleInRow(self):
     #Iterates through each row of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that row, it must be the only location of that digit within that row
         starterGrid = self.getGridValues()
@@ -87,7 +87,7 @@ class Strategies:
             return False
         else:
             return True
-    
+
     def singleInColumn(self):
     #Iterates through each column of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that column, it must be the only location of that digit within that columnd
         starterGrid = self.getGridValues()
@@ -111,7 +111,7 @@ class Strategies:
             return False
         else:
             return True
-    
+
     def singleInBox(self):
     #Iterates through each box of the grid and totals the number of occurances of that digit. Then checks a dictionary of all occurances of each digit, if there is one occurance within that box, it must be the only location of that digit within that box
         starterGrid = self.getGridValues()
@@ -138,7 +138,7 @@ class Strategies:
             return False
         else:
             return True
-                                        
+
     def checkClashesInRow(self):
         clash = False
         #Searches through every row of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
@@ -150,7 +150,7 @@ class Strategies:
                 if occurance != 0 and occurances[occurance] > 1:
                     print(f"Clash in row: {row+1}")
         return clash
-    
+
     def checkClashesInColumn(self):
         clash = False
         #Searches through every column of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
@@ -162,7 +162,7 @@ class Strategies:
                 if occurance != 0 and occurances[occurance] > 1:
                     print(f"Clash in column: {column+1}")
         return clash
-    
+
     def checkClashesInBox(self):
         clash = False
         for box in range(len(self.boxes)):
@@ -175,10 +175,68 @@ class Strategies:
                     print(f"Clash in box {box+1}")
                     clash = True
         return clash
-    
+
+    def returnClashesInRow(self):
+        clash = []
+        #Searches through every row of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
+        for row in range(len(self.grid)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for cell in range(len(self.grid[row])):
+                occurances[self.grid[row][cell].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in row: {row+1}")
+                    for cell in range(len(self.grid[row])):
+                        if self.grid[row][cell].getValue() == occurance:
+                            clash.append(f"{((row)*9)+cell}")
+                            print(f"{(row*9)+cell+1}")
+        return clash
+
+    def returnClashesInColumn(self):
+        clash = []
+        #Searches through every column of the grid and collects the number of occurances that appear in each row. If a non 0 value appears more than once, a rule of sudoku has been broken
+        for column in range(len(self.grid)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for cell in range(len(self.grid[column])):
+                occurances[self.grid[cell][column].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in column: {column+1}")
+                    for cell in range(len(self.grid[column])):
+                        if self.grid[cell][column].getValue() == occurance:
+                            print(f"{(cell*9)+column+1}")
+                            clash.append(f"{(cell*9)+column+1}")
+        return clash
+
+    def returnClashesInBox(self):
+        digits = [
+	[[1,2,3],[10,11,12],[19,20,21]],[[4,5,6],[13,14,15],[22,23,24]],[[7,8,9],[16,17,18],[25,26,27]],[[28,29,30],[37,38,39],[46,47,48]],[[31,32,33],[40,41,42],[49,50,51]],[[34,35,36],[43,44,45],[52,53,54]],[[55,56,57],[64,65,66],[73,74,75]],[[58,59,60],[67,68,69],[76,77,78]],[[61,62,63],[70,71,72],[79,80,81]]]
+        clash = []
+        for box in range(len(self.boxes)):
+            occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
+            for row in range(len(self.boxes[box])):
+                for cell in range(len(self.boxes[box][row])):
+                    occurances[self.boxes[box][row][cell].getValue()] += 1
+            for occurance in occurances:
+                if occurance != 0 and occurances[occurance] > 1:
+                    print(f"Clash in box {box+1}")
+                    for row in range(len(self.boxes[box])):
+                        for cell in range(len(self.boxes[box][row])):
+                            if self.boxes[box][row][cell].getValue() == occurance:
+                                clash.append(digits[box][row][cell])
+        return clash
+
+
     def checkClashes(self):
         return self.checkClashesInRow() or self.checkClashesInColumn() or self.checkClashesInBox()
-        
+    
+    def returnClashes(self):
+        clashes = []
+        clashes.append(self.returnClashesInRow())
+        clashes.append(self.returnClashesInColumn())
+        clashes.append(self.returnClashesInBox())
+        return clashes
+
     def removeDigits(self):
         self.digitInRow()
         self.digitInColumn()

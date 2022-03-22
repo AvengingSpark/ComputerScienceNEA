@@ -19,8 +19,8 @@ class SudokuGrid(Strategies):
         self.__clueLocations = clueLocations
         self.__isSolved = False
         #Calls generateGrid method to populate the grid with instances of the class Field.
-        self.generateGrid()
         #This represents all of the boxes within the sudoku grid. Each nested list represents one of these boxes where the list inside of that list is one of the three rows within that box.
+        self.generateGrid()
         self.boxes = [[self.grid[0][:3], self.grid[1][:3], self.grid[2][:3]], [self.grid[0][3:6], self.grid[1][3:6], self.grid[2][3:6]], [self.grid[0][6:], self.grid[1][6:], self.grid[2][6:]], [self.grid[3][:3], self.grid[4][:3], self.grid[5][:3]], [self.grid[3][3:6], self.grid[4][3:6], self.grid[5][3:6]], [self.grid[3][6:], self.grid[4][6:], self.grid[5][6:]], [self.grid[6][:3], self.grid[7][:3], self.grid[8][:3]], [self.grid[6][3:6], self.grid[7][3:6], self.grid[8][3:6]], [self.grid[6][6:], self.grid[7][6:], self.grid[8][6:]]]
         
     def calculateClues(self):
@@ -30,6 +30,7 @@ class SudokuGrid(Strategies):
     
     def isSolveable(self):
         self.calculateClues()
+        return True
         if self.__numOfClues >= 17 and self.__numOfClues <= 81:
             return True
         else:
@@ -45,8 +46,7 @@ class SudokuGrid(Strategies):
                     self.grid.append([])
                 self.grid[-1].append(Field(int(self.__clueLocations[num])))
         else:
-            print(self.__numOfClues)
-            input()
+            pass
 
     def getGrid(self):
     #This function returns the entire Sudoku Grid

@@ -14,8 +14,11 @@ class UI:
         self.entryList = []
         self.textList = []
         
-        self.grid = ["0" for f in range(81)]
+        self.grid = []
         
+        for f in range(81):
+            self.grid.append("0")
+                
         self.__initGrid()
         
     def __initGrid(self):
@@ -50,6 +53,8 @@ class sudokuBoard(UI):
         self.createButton(1350, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createEntry(1350, 350)
         self.createButton(1350, 250, "Enter puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
+        self.createButton(1350, 590, "Check Puzzle", command=lambda: self.checkGrid())
+        self.createButton(1350, 710, "Clear Puzle", command=lambda: self.clearGrid())
         self.createCells()
         for f in range(len(self.canvasList)):
             self.root.bind("<Double-Button-1>", lambda event: self.deselect())
@@ -58,12 +63,12 @@ class sudokuBoard(UI):
             self.canvasList[f].bind("<Down>", lambda event, f=f: self.downCell(f))
             self.canvasList[f].bind("<Left>", lambda event, f=f: self.leftCell(f))
             self.canvasList[f].bind("<Right>", lambda event, f=f: self.rightCell(f))
-            self.canvasList[f].bind("<Control-Up>", lambda event, f=f: self.upCellSelect(f))
-            self.canvasList[f].bind("<Control-Down>", lambda event, f=f: self.downCellSelect(f))
-            self.canvasList[f].bind("<Control-Left>", lambda event, f=f: self.leftCellSelect(f))
-            self.canvasList[f].bind("<Control-Right>", lambda event, f=f: self.rightCellSelect(f))
+            self.canvasList[f].bind("<Shift-Up>", lambda event, f=f: self.upCellSelect(f))
+            self.canvasList[f].bind("<Shift-Down>", lambda event, f=f: self.downCellSelect(f))
+            self.canvasList[f].bind("<Shift-Left>", lambda event, f=f: self.leftCellSelect(f))
+            self.canvasList[f].bind("<Shift-Right>", lambda event, f=f: self.rightCellSelect(f))
             self.canvasList[f].bind("<Shift-Button-1>", lambda event: self.selecting())
-            self.canvasList[f].bind("<Control-Button-1>", lambda event, f=f: self.selectedMultiple(f))
+            self.canvasList[f].bind("<Shift-Button-1>", lambda event, f=f: self.selectedMultiple(f))
             self.canvasList[f].bind("<Any-KeyPress>", lambda event: self.keyTyped(event.char, event))
             self.root.bind("<Control-Any-KeyPress>", lambda event: self.cornerPencil())
             self.root.bind("<Alt-Any-KeyPress>", lambda event: self.centerPencil())
@@ -245,15 +250,32 @@ class sudokuBoard(UI):
         self.root.bind("<KeyRelease-Alt_R>", lambda event: self.deleteText())  
     
     def returnGrid(self):
-        return "".join(self.grid)
+        temp = "".join(self.grid)
+        return temp
     
     def updateGrid(self, puzzle=None):
-        for f in range(len(puzzle)):
-            if len(self.canvasList[f+1].find_all()) > 4:
-                self.canvasList[f+1].delete(self.canvasList[f+1].find_all()[-1])
-            if puzzle[f] != "0":
-                self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 35), tag="num")
-            self.grid[f] = puzzle[f]
+        if len(puzzle) == 81:
+            for f in range(len(puzzle)):
+                if len(self.canvasList[f+1].find_all()) > 4:
+                    self.canvasList[f+1].delete(self.canvasList[f+1].find_all()[-1])
+                if puzzle[f] != "0":
+                    self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 35), tag="num")
+                self.grid[f] = puzzle[f]
+        else:
+            print("ERROR PUZZLE NOT 81 DIGITS LONG")
+    
+    def checkGrid(self):
+        puzzle = SudokuGrid(self.returnGrid())
+        clashes = puzzle.returnClashes()
+        for i in range(len(clashes)):
+            for f in range(len(clashes[i])):
+                self.canvasList[clashes[i][f]].configure(bg="red")
+                
+    def clearGrid(self):
+        for f in range(1,82):
+            if len(self.canvasList[f].find_all()) > 4:
+                    self.canvasList[f].delete(self.canvasList[f+1].find_all()[-1])
+                    self.grid[f] = "0"
 
     def createEntry(self, x, y):
         entry = Entry(self.root, font=("OCR A Extended", 7), width=85)
