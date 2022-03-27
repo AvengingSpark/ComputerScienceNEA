@@ -1,3 +1,3 @@
 from gui import *
 
-thing = sudokuBoard()
+thing = SudokuBoard()

@@ -100,6 +100,8 @@ class SudokuGrid(Strategies):
 
 
     def mainLoop(self):
+        if self.__numOfClues < 17:
+            return "PUZZLE BROKEN"
         while not self.checkIfSolved():
             print("\n"*10)
             if self.checkClashes():

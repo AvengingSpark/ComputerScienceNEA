@@ -20,6 +20,28 @@ class Strategies:
         else:
             return True
 
+    def pairInRow(self):
+        starterGrid = self.getGridValues()
+        for row in range(9):
+            pairs = []
+            for cell in range(9):
+                if len(self.grid[row][cell].returnPossibilities()) == 2:
+                    pairs.append(self.grid[row][cell].returnPossibilities())
+            toRemove = []
+            for possibilities in range(len(pairs)):
+                if pairs.count(pairs[possibilities]) == 2:
+                    for f in range(len(pairs[possibilities])):
+                        if not(pairs[possibilities][f] in toRemove):
+                            toRemove.append(pairs[possibilities][f])
+            for cell in range(9):
+                for digit in range(len(toRemove)):
+                    if not (self.grid[row][cell].returnPossibilities() in pairs):
+                        self.grid[row][cell].removePossibility(toRemove[digit])
+            if self.getGridValues == starterGrid:
+                return False
+            else:
+                return True
+
     def digitInColumn(self):
     #Checks within each row of the grid, if a single digit appears in that column, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that column
         starterGrid = self.getGridValues()
@@ -36,6 +58,52 @@ class Strategies:
                 #Loops through 9 times as per the number of cells in a column of the sudoku Grid
                     self.grid[cell][column].removePossibility(digitsToRemove[toRemove])
         if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
+
+    def pairInColumn(self):
+        starterGrid = self.getGridValues()
+        for column in range(9):
+            pairs = []
+            for cell in range(9):
+                if len(self.grid[cell][column].returnPossibilities()) == 2:
+                    pairs.append(self.grid[cell][column].returnPossibilities())
+            toRemove = []
+            for possibilities in range(len(pairs)):
+                if pairs.count(pairs[possibilities]) == 2:
+                    for f in range(len(pairs[possibilities])):
+                        if not(pairs[possibilities][f] in toRemove):
+                            toRemove.append(pairs[possibilities][f])
+            for cell in range(9):
+                for digit in range(len(toRemove)):
+                    if not (self.grid[cell][column].returnPossibilities() in pairs):
+                        self.grid[cell][column].removePossibility(toRemove[digit])
+            if self.getGridValues == starterGrid:
+                return False
+            else:
+                return True
+
+    def pairInBox(self):
+        starterGrid = self.getGridValues()
+        for box in range(9):
+            pairs = []
+            for row in range(3):
+                for cell in range(3):
+                    if len(self.boxes[box][row][cell].returnPossibilities()) == 2:
+                        pairs.append(self.boxes[box][row][cell].returnPossibilities())
+            toRemove = []
+            for possibilities in range(len(pairs)):
+                if pairs.count(pairs[possibilities]) == 2:
+                    for f in range(len(pairs[possibilities])):
+                        if not(pairs[possibilities][f] in toRemove):
+                            toRemove.append(pairs[possibilities][f])
+                for row in range(3):
+                    for cell in range(3):
+                        for digit in range(len(toRemove)):
+                            if not (self.boxes[box][row][cell].returnPossibilities()) in pairs:
+                                self.boxes[box][row][cell].removePossibility(toRemove[digit])
+        if self.getGridValues == starterGrid:
             return False
         else:
             return True
@@ -188,9 +256,10 @@ class Strategies:
                     print(f"Clash in row: {row+1}")
                     for cell in range(len(self.grid[row])):
                         if self.grid[row][cell].getValue() == occurance:
-                            clash.append(f"{((row)*9)+cell}")
-                            print(f"{(row*9)+cell+1}")
-        return clash
+                            clash.append(((row)*9)+cell+1)
+                            print((row*9)+cell+1)
+        if clash != []:
+            return clash
 
     def returnClashesInColumn(self):
         clash = []
@@ -205,12 +274,12 @@ class Strategies:
                     for cell in range(len(self.grid[column])):
                         if self.grid[cell][column].getValue() == occurance:
                             print(f"{(cell*9)+column+1}")
-                            clash.append(f"{(cell*9)+column+1}")
-        return clash
+                            clash.append((cell*9)+column+1)
+        if clash != []:
+            return clash
 
     def returnClashesInBox(self):
-        digits = [
-	[[1,2,3],[10,11,12],[19,20,21]],[[4,5,6],[13,14,15],[22,23,24]],[[7,8,9],[16,17,18],[25,26,27]],[[28,29,30],[37,38,39],[46,47,48]],[[31,32,33],[40,41,42],[49,50,51]],[[34,35,36],[43,44,45],[52,53,54]],[[55,56,57],[64,65,66],[73,74,75]],[[58,59,60],[67,68,69],[76,77,78]],[[61,62,63],[70,71,72],[79,80,81]]]
+        digits = [[[1,2,3],[10,11,12],[19,20,21]],[[4,5,6],[13,14,15],[22,23,24]],[[7,8,9],[16,17,18],[25,26,27]],[[28,29,30],[37,38,39],[46,47,48]],[[31,32,33],[40,41,42],[49,50,51]],[[34,35,36],[43,44,45],[52,53,54]],[[55,56,57],[64,65,66],[73,74,75]],[[58,59,60],[67,68,69],[76,77,78]],[[61,62,63],[70,71,72],[79,80,81]]]
         clash = []
         for box in range(len(self.boxes)):
             occurances = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0}
@@ -224,7 +293,8 @@ class Strategies:
                         for cell in range(len(self.boxes[box][row])):
                             if self.boxes[box][row][cell].getValue() == occurance:
                                 clash.append(digits[box][row][cell])
-        return clash
+        if clash != []:
+            return clash
 
 
     def checkClashes(self):
@@ -232,12 +302,21 @@ class Strategies:
     
     def returnClashes(self):
         clashes = []
-        clashes.append(self.returnClashesInRow())
-        clashes.append(self.returnClashesInColumn())
-        clashes.append(self.returnClashesInBox())
+        row = self.returnClashesInRow()
+        column = self.returnClashesInColumn()
+        box = self.returnClashesInBox()
+        if row != None:
+            clashes.append(row)
+        if column != None:
+            clashes.append(column)
+        if box != None:
+            clashes.append(box)
         return clashes
 
     def removeDigits(self):
         self.digitInRow()
         self.digitInColumn()
         self.digitInBox()
+        self.pairInRow()
+        self.pairInColumn()
+        self.pairInBox()

@@ -93,4 +93,13 @@ from sudokuGridClass import SudokuGrid
 # clashInBoxTest.printGrid()
 # clashInBoxTest.checkClashesInBox()
 
+nakedPairInRowTest = SudokuGrid("400000938032094100095300240370609004529001673604703090957008300003900400240030709")
+nakedPairInRowTest.printGrid()
+nakedPairInRowTest.digitInRow()
+nakedPairInRowTest.digitInColumn()
+nakedPairInRowTest.digitInBox()
+nakedPairInRowTest.pairInRow()
+nakedPairInRowTest.printGrid()
+
+
 input()
