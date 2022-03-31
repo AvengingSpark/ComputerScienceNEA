@@ -257,7 +257,6 @@ class Strategies:
                     for cell in range(len(self.grid[row])):
                         if self.grid[row][cell].getValue() == occurance:
                             clash.append(((row)*9)+cell+1)
-                            print((row*9)+cell+1)
         if clash != []:
             return clash
 

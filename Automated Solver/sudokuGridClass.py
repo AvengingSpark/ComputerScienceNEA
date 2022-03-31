@@ -103,39 +103,19 @@ class SudokuGrid(Strategies):
         if self.__numOfClues < 17:
             return "PUZZLE BROKEN"
         while not self.checkIfSolved():
-            print("\n"*10)
             if self.checkClashes():
-                print("Puzzle broken")
+                print("Puzzle Broken")
                 break
             self.removeDigits()
-            print("\n")
-            self.printGrid()
-            print("\n")
             if self.singleInRow():
-                print("Single In Row:")
-                print("\n")
-                self.printGrid()
                 continue
             elif self.singleInColumn():
-                print("\n")
-                print("Single In Column:")
-                self.printGrid()
                 continue
             elif self.singleInBox():
-                print("\n")
-                print("Single In Box:")
-                self.printGrid()
                 continue
             self.checkIfSolved()
-                
-        # os.system("cls")
-        print("\n"*50)
+            
         if not self.checkClashes():
-            print("Finished Solution:")
-            self.printGrid()
             return self.getGridValues()
-            input()
         else:
             print("PUZZLE BROKEN")
-            self.printGrid()
-            input()
