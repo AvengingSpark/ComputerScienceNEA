@@ -1,5 +1,6 @@
 from tkinter import *
 from sudokuGridClass import SudokuGrid
+from PIL import ImageTk, Image
 
 class UI:
     
@@ -38,8 +39,12 @@ class UI:
             
             
     def createCanvas(self, h, w, p, bg="black"):
+        # img = ImageTk.PhotoImage(Image.open(r"C:\Users\ciara\Downloads\booba.jpg").resize((self.HEIGHT//9, self.WIDTH//9)))
+        # panel = Label(self.root, image=img)
+        # panel.photo = img
         #Creates a canvas of height h, width w, with a parent layer specified. The background of the canvas created can be specified to any hex colour but is automatically set to be black.
         self.canvasList.append(Canvas(p, height=h, width=w, bg=bg, bd=0, highlightthickness=0))
+        # self.canvasList[-1].create_image(5,5,image=img, anchor=NW)
         
         
     def createLine(self, coords, w, canvas, colour="black"):
@@ -338,21 +343,37 @@ class SudokuBoard(UI):
         
         
     def generateGrid(self):
+        #Creates the main canvas and all cells of the sudoku grid, placing them onto the main canvas
         self.createCanvas(self.WIDTH, self.HEIGHT, self.root)
         self.placeCanvas(self.canvasList[0], CENTER)
         self.createCells()
 
     def generateWidgets(self):
+        #Creates all buttons and places them onto the grid
         self.createButton(1460, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createEntry(1460, 350)
         self.createButton(1460, 250, "Enter Puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
         self.createButton(1460, 590, "Check Puzzle", command=lambda: self.checkGrid())
         self.createButton(1460, 710, "Clear Puzzle", command=lambda: self.clearGrid())
+        #Creates a button which is an image and places it onto the screen
+        img = ImageTk.PhotoImage(Image.open(r"C:\Users\ciara\Documents\Sixth Form\Computer Science\NEA\QuestionMark.png").resize((100,100)))
+        panel = Label(self.root, image=img)
+        panel.photo = img
+        Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
+        #Instantiates the relevant event listeners for both pencil mark alerts
         self.root.bind("<Control-Any-KeyPress>", lambda event: self.cornerPencilAlert())
         self.root.bind("<Alt-Any-KeyPress>", lambda event: self.centrePencilAlert())
 
         
     def generateCellEventListeners(self):
+        """
+        Instantiates all event listeners cells of the sudoku grid. They are as follows:
+        - If a cell is clicked on, or shift clicked on the cell is selected
+        - If any of the arrow keys are pressed, the cell in that corresponding direction is selected
+        - If any of the arrow keys is pressed along with shift, that cell in that corresponding direction will be added to the selected cells
+        - If a key is pressed and that key is a digit, but not 0; it is entered into that cell as a digit
+        - If backspace is pressed, all digits, whether they be a certain or 'pencil marking' will be deleted from the selected cell
+        """
         self.root.bind("<Double-Button-1>", lambda event: self.deselect())
         for f in range(len(self.canvasList)):
             self.canvasList[f].bind("<Button-1>", lambda event, f=f: self.selectedSingle(f))
@@ -372,13 +393,26 @@ class SudokuBoard(UI):
             
             
     def createInstruction(self):
-        text = """
-        Welcome to this Sudoku Solver!
+        #Text to be written on the window
+        title1 = "Welcome to this Sudoku Solver!"
+        introToSudoku = "Sudoku is a Japanese logic based puzzle, where the main goal is to fill a single 9x9 grid of cells with digits from 1 to 9. Within this grid, there are 9 individual 3x3 boxes; and each row, column and box can have a single digit from 1 to 9 appear only once \n \n"
+        title2 = "About this application:"
+        applicationExplanation = "Within this applciation, you will be able to enter a puzzle into the grid, using either the entry field underneath the enter puzzle button, or yourself using any numerical keys. Following this, you will be able to attempt to solve the puzzle itself. Keep in mind that both the numpad and normal numerical keys are usable in order to solve a puzzle. \n \n"
+        title3 = "Some useful tools to assist in learning to solve and solve Sudoku Puzzles"
+        toolExplanation = "- The first of these tools is the ability to select multiple cells to enter digits. You begin selecting cells by right clicking on them. Then, by holding shift and clicking on more cells, they too can be selected \n - The second of these tools is the ability to enter 'pencil markings' into a cell. There are two types of 'pencil markings', and the type of marking is determined by the key that you hold when entering a digit; CTRL for in the corner, and ALT in the centre of a cell \n  - A feature that will prove most useful to beginners is the ability for any incorrectly entered digits to be highlighted. An 'incorrect' digit is determines by whether or not it creates a clash within a grid and not if the digit does not exist in that cell within the actual solution \n - In addition to this, if you do not know how to progress with a puzzle in any way, the auto solve puzzle button exists to give you an accurate solution based upon the rules and strategies you employ when solving a puzzle \n - If at any stage you wish to restart the puzzle, you can use the 'Clear grid' button to erase every digit and pencil mark from the grid, and begin the puzzle again. \n "
+        finalReminder = "As a final reminder, if you ever wish to open this window again, press ---- the button in top left corner of your screen"
         
-        {Insert Text Here}
-        """
-        instructionWindow = Toplevel(self.root, bg="black")
+        #Construction and placement of window and all widgets.
+        instructionWindow = Toplevel(self.root, bg="#a1a1a1")
         instructionWindow.title("Welcome to the Sudoku Solver!")
         instructionWindow.lift(self.root)
-        instructionWindow.geometry(f"{int(self.HEIGHT//1.5)}x{self.WIDTH}+{self.WIDTH-100}+50")
-        Label(instructionWindow, text=text).pack()
+        instructionWindow.geometry(f"{int(self.HEIGHT//1.5)}x{self.WIDTH}+{self.WIDTH-275}+25")
+        Label(instructionWindow, text=title1, justify=CENTER, wraplength=600, font=("OCR A Extended", 18), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=introToSudoku, justify=CENTER, wraplength=600, font=("OCR A Extended", 12), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=title2, justify=CENTER, wraplength=600, font=("OCR A Extended", 18), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=applicationExplanation, justify=CENTER, wraplength=600, font=("OCR A Extended", 12), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=title3, justify=CENTER, wraplength=600, font=("OCR A Extended", 18), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=toolExplanation, justify=CENTER, wraplength=600, font=("OCR A Extended", 12), bg="#a1a1a1").pack()
+        Label(instructionWindow, text=finalReminder, justify=CENTER, wraplength=600, font=("OCR A Extended", 14), bg="#a1a1a1").pack()
+        #Button that when pressed, closes the window
+        Button(instructionWindow, bg="#a1a1a1", activebackground="#a1a1a1", relief="raised", padx="10p", pady="5p", text="Ready To Begin?", font=("OCR A Extended", 14), command = lambda: instructionWindow.destroy()).pack()
