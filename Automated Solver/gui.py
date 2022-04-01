@@ -357,7 +357,7 @@ class SudokuBoard(UI):
         self.createButton(1460, 590, "Check Puzzle", command=lambda: self.checkGrid())
         self.createButton(1460, 710, "Clear Puzzle", command=lambda: self.clearGrid())
         #Creates a button which is an image and places it onto the screen
-        img = ImageTk.PhotoImage(Image.open(r"C:\Users\ciara\Documents\Sixth Form\Computer Science\NEA\QuestionMark.png").resize((100,100)))
+        img = ImageTk.PhotoImage(Image.open("QuestionMark.png").resize((100,100)))
         panel = Label(self.root, image=img)
         panel.photo = img
         Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
