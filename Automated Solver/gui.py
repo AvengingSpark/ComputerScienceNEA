@@ -287,14 +287,14 @@ class SudokuBoard(UI):
     def cornerPencilAlert(self):
         #Creates an alert to the user if the control key is held, telling them that the digit entered will be a pencil mark in the "corner" of the cell
         self.textList.append(Label(self.root, bg="red", text="Pencil Marks in corner"))
-        self.textList[-1].place(x=100, y=100)
+        self.textList[-1].place(x=100, y=150)
         self.root.bind("<KeyRelease-Control_L>", lambda event: self.deleteText())
         self.root.bind("<KeyRelease-Control_R>", lambda event: self.deleteText())
         
     def centrePencilAlert(self):
         #Creates an alert to the user if the alt key is held, telling them that the digit entered will be a pencil mark in the "centre" of the cell
         self.textList.append(Label(self.root, bg="red", text="Pencil Marks in centre"))
-        self.textList[-1].place(x=100, y=100)
+        self.textList[-1].place(x=100, y=150)
         self.root.bind("<KeyRelease-Alt_L>", lambda event: self.deleteText())
         self.root.bind("<KeyRelease-Alt_R>", lambda event: self.deleteText()) 
         
