@@ -35,6 +35,7 @@ class UI:
             self.root = Tk()
             self.root.title("Sudoku Autosolver")
             self.root.state("zoomed")
+            self.root.iconbitmap(r"C:\Users\ciara\Documents\Sixth Form\Computer Science\NEA\ComputerScienceNEA\Automated Solver\icon.ico")
             self.root.configure(bg="black")
             
             
