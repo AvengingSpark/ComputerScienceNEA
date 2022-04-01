@@ -205,12 +205,12 @@ class SudokuBoard(UI):
         for f in range(len(self.canvasList)):
             if self.canvasList[f]["background"] == "white" and letter.isdigit() and letter != "0" and len(self.canvasList[f].find_all()) == 4:
                 #If the cell is selected (background is white), and the key pressed is a digit and the digit is not 0
-                self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="digit")
+                self.canvasList[f].create_text(50,50, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="digit")
                 self.grid[f-1] = letter
             elif len(self.canvasList[f].find_all()) > 4 and letter.isdigit() and letter != "0" and self.canvasList[f]["background"] == "white":
                 while len(self.canvasList[f].find_all()) > 4:
                     self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
-                self.canvasList[f].create_text(43,43, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="digit")
+                self.canvasList[f].create_text(50,50, text=letter, anchor=CENTER, fill="blue", font=("OCR A Extended", 50), tag="digit")
                 self.grid[f-1] = letter
         self.checkGrid()
         
@@ -316,7 +316,7 @@ class SudokuBoard(UI):
                 if len(self.canvasList[f+1].find_all()) > 4:
                     self.canvasList[f+1].delete(self.canvasList[f+1].find_all()[-1])
                 if puzzle[f] != "0":
-                    self.canvasList[f+1].create_text(43,43, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 35), tag="num")
+                    self.canvasList[f+1].create_text(50,50, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 40), tag="num")
                 self.grid[f] = str(puzzle[f])
         else:
             print("ERROR PUZZLE NOT 81 DIGITS LONG")
@@ -400,7 +400,7 @@ class SudokuBoard(UI):
         applicationExplanation = "Within this applciation, you will be able to enter a puzzle into the grid, using either the entry field underneath the enter puzzle button, or yourself using any numerical keys. Following this, you will be able to attempt to solve the puzzle itself. Keep in mind that both the numpad and normal numerical keys are usable in order to solve a puzzle. \n \n"
         title3 = "Some useful tools to assist in learning to solve and solve Sudoku Puzzles"
         toolExplanation = "- The first of these tools is the ability to select multiple cells to enter digits. You begin selecting cells by right clicking on them. Then, by holding shift and clicking on more cells, they too can be selected \n - The second of these tools is the ability to enter 'pencil markings' into a cell. There are two types of 'pencil markings', and the type of marking is determined by the key that you hold when entering a digit; CTRL for in the corner, and ALT in the centre of a cell \n  - A feature that will prove most useful to beginners is the ability for any incorrectly entered digits to be highlighted. An 'incorrect' digit is determines by whether or not it creates a clash within a grid and not if the digit does not exist in that cell within the actual solution \n - In addition to this, if you do not know how to progress with a puzzle in any way, the auto solve puzzle button exists to give you an accurate solution based upon the rules and strategies you employ when solving a puzzle \n - If at any stage you wish to restart the puzzle, you can use the 'Clear grid' button to erase every digit and pencil mark from the grid, and begin the puzzle again. \n "
-        finalReminder = "As a final reminder, if you ever wish to open this window again, press ---- the button in top left corner of your screen"
+        finalReminder = "As a final reminder, if you ever wish to open this window again, press the question mark button in top left corner of your screen"
         
         #Construction and placement of window and all widgets.
         instructionWindow = Toplevel(self.root, bg="#a1a1a1")
