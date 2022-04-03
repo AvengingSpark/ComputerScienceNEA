@@ -35,7 +35,7 @@ class UI:
             self.root = Tk()
             self.root.title("Sudoku Autosolver")
             self.root.state("zoomed")
-            self.root.iconbitmap("icon.ico")
+            # self.root.iconbitmap("icon.ico")
             self.root.configure(bg="black")
             
             
@@ -185,6 +185,8 @@ class SudokuBoard(UI):
                 
     def selectedSingle(self, cellNum):
         #Changes a cell's background to be white if a user clicks on it. Changes all other cell's backgrounds to be grey to show that they are not being selected. Overall means that only one cell can be selected at once
+        if len(self.canvasList[cellNum].find_withtag("given")) >= 1:
+            return -1
         self.canvasList[cellNum].configure(bg="white")
         self.canvasList[cellNum].focus_set()
         for i in range(len(self.canvasList)):
@@ -193,6 +195,8 @@ class SudokuBoard(UI):
             
     def selectedMultiple(self, cellNum):
         #Changes a cell's background to be white if a user clicks on it to show as if it has been selected. Allows for multiple cells to be selected as one.
+        if len(self.canvasList[cellNum].find_withtag("given")) >= 1:
+            return -1
         self.canvasList[cellNum].configure(bg="white")
         self.canvasList[cellNum].focus_set()
             
@@ -316,8 +320,8 @@ class SudokuBoard(UI):
             for f in range(len(puzzle)):
                 if len(self.canvasList[f+1].find_all()) > 4:
                     self.canvasList[f+1].delete(self.canvasList[f+1].find_all()[-1])
-                if puzzle[f] != "0":
-                    self.canvasList[f+1].create_text(50,50, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 40), tag="num")
+                if str(puzzle[f]) != "0":
+                    self.canvasList[f+1].create_text(50,50, text=puzzle[f], anchor=CENTER, fill="black", font=("OCR A Extended", 40), tag="given")
                 self.grid[f] = str(puzzle[f])
         else:
             print("ERROR PUZZLE NOT 81 DIGITS LONG")
@@ -337,11 +341,24 @@ class SudokuBoard(UI):
                 self.canvasList[f].delete(self.canvasList[f].find_all()[-1])
             self.grid[f-1] = "0"
         
+    def createPopUp(self):
+        popup = Toplevel(self.root)
+        popup.lift(self.root)
+        popup.title("Uh Oh!")
+        popup.geometry(f"{int(self.HEIGHT//1.65)+30}x{int(self.WIDTH//14)}+{self.WIDTH-275}+450")
+        Label(popup, text="Looks like I couldn't solve this one fast enough, try pressing the auto solve button again. Or maybe try some more yourself ;)", justify=CENTER, wraplength=600, font=("OCR A Extended", 14), bg="#a1a1a1").pack()
+        
     def autosolve(self):
         #Creates an instance of the SudokuGrid class and attempts to solve the puzzle, when the puzzle is solved, the resulting grid will be displayed on the application.
         puzzle = SudokuGrid(self.returnGrid())
-        self.updateGrid(puzzle.mainLoop())
-        
+        returnedPuzzle = puzzle.mainLoop()
+        solved = True
+        for f in range(len(returnedPuzzle)):
+            if str(returnedPuzzle[f]) == "0":
+                solved = False
+        if not solved:
+            self.createPopUp()
+        self.updateGrid(returnedPuzzle)
         
     def generateGrid(self):
         #Creates the main canvas and all cells of the sudoku grid, placing them onto the main canvas
@@ -351,16 +368,17 @@ class SudokuBoard(UI):
 
     def generateWidgets(self):
         #Creates all buttons and places them onto the grid
+        # self.createButton(1460, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createButton(1460, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createEntry(1460, 350)
         self.createButton(1460, 250, "Enter Puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
         self.createButton(1460, 590, "Check Puzzle", command=lambda: self.checkGrid())
         self.createButton(1460, 710, "Clear Puzzle", command=lambda: self.clearGrid())
         #Creates a button which is an image and places it onto the screen
-        img = ImageTk.PhotoImage(Image.open("QuestionMark.png").resize((100,100)))
-        panel = Label(self.root, image=img)
-        panel.photo = img
-        Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
+        # img = ImageTk.PhotoImage(Image.open("QuestionMark.png").resize((100,100)))
+        # panel = Label(self.root, image=img)
+        # panel.photo = img
+        # Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
         #Instantiates the relevant event listeners for both pencil mark alerts
         self.root.bind("<Control-Any-KeyPress>", lambda event: self.cornerPencilAlert())
         self.root.bind("<Alt-Any-KeyPress>", lambda event: self.centrePencilAlert())

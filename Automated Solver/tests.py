@@ -92,14 +92,3 @@ from sudokuGridClass import SudokuGrid
 # clashInBoxTest = SudokuGrid("100000005010000000000000500000040000000000000000400000200000000000000000002000000000")
 # clashInBoxTest.printGrid()
 # clashInBoxTest.checkClashesInBox()
-
-nakedPairInRowTest = SudokuGrid("400000938032094100095300240370609004529001673604703090957008300003900400240030709")
-nakedPairInRowTest.printGrid()
-nakedPairInRowTest.digitInRow()
-nakedPairInRowTest.digitInColumn()
-nakedPairInRowTest.digitInBox()
-nakedPairInRowTest.pairInRow()
-nakedPairInRowTest.printGrid()
-
-
-input()

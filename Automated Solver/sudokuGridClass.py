@@ -1,6 +1,6 @@
 from FieldClass import Field
 from strategiesClass import Strategies
-import os
+import time as t
 
 class SudokuGrid(Strategies):
     """
@@ -100,9 +100,12 @@ class SudokuGrid(Strategies):
 
 
     def mainLoop(self):
+        start = t.time()
         if self.__numOfClues < 17:
-            return "PUZZLE BROKEN"
+            return "PUZZLE NOT SOLVEABLE"
         while not self.checkIfSolved():
+            if t.time() - start >= 5:
+                return self.getGridValues()
             if self.checkClashes():
                 print("Puzzle Broken")
                 break
@@ -112,6 +115,12 @@ class SudokuGrid(Strategies):
             elif self.singleInColumn():
                 continue
             elif self.singleInBox():
+                continue
+            elif self.pairInRow():
+                continue
+            elif self.pairInColumn():
+                continue
+            elif self.pairInBox():
                 continue
             self.checkIfSolved()
             

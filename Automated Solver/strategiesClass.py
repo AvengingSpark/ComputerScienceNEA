@@ -20,28 +20,6 @@ class Strategies:
         else:
             return True
 
-    def pairInRow(self):
-        starterGrid = self.getGridValues()
-        for row in range(9):
-            pairs = []
-            for cell in range(9):
-                if len(self.grid[row][cell].returnPossibilities()) == 2:
-                    pairs.append(self.grid[row][cell].returnPossibilities())
-            toRemove = []
-            for possibilities in range(len(pairs)):
-                if pairs.count(pairs[possibilities]) == 2:
-                    for f in range(len(pairs[possibilities])):
-                        if not(pairs[possibilities][f] in toRemove):
-                            toRemove.append(pairs[possibilities][f])
-            for cell in range(9):
-                for digit in range(len(toRemove)):
-                    if not (self.grid[row][cell].returnPossibilities() in pairs):
-                        self.grid[row][cell].removePossibility(toRemove[digit])
-            if self.getGridValues == starterGrid:
-                return False
-            else:
-                return True
-
     def digitInColumn(self):
     #Checks within each row of the grid, if a single digit appears in that column, whether it be a clue or a digit that the solver have discovered, it adds it to a list of digits to remove. Then these digits are removed as possibilities from all other cells within that column
         starterGrid = self.getGridValues()
@@ -62,47 +40,78 @@ class Strategies:
         else:
             return True
 
-    def pairInColumn(self):
+    def pairInRow(self):
+        #Iterates through each row of the grid and searches for cells with only two possibilities, if such a cell exists, it is appended to the list of possibilities
         starterGrid = self.getGridValues()
-        for column in range(9):
-            pairs = []
+        for row in range(9):
+            possibilities = []
             for cell in range(9):
-                if len(self.grid[cell][column].returnPossibilities()) == 2:
-                    pairs.append(self.grid[cell][column].returnPossibilities())
+                if len(self.grid[row][cell].returnPossibilities()) == 2:
+                    possibilities.append(self.grid[row][cell].returnPossibilities())
             toRemove = []
-            for possibilities in range(len(pairs)):
-                if pairs.count(pairs[possibilities]) == 2:
-                    for f in range(len(pairs[possibilities])):
-                        if not(pairs[possibilities][f] in toRemove):
-                            toRemove.append(pairs[possibilities][f])
+            #Iterates through the list of possibilities, if a set of possibilities appears twice, it is a pair and so each digit in that pair is appended to a list of digits to remove, and so is removed from every other cell except for the cells which form the pairs
+            for possibility in range(len(possibilities)):
+                if possibilities.count(possibilities[possibility]) == 2:
+                    for f in range(len(possibilities[possibility])):
+                        if not(possibilities[possibility][f] in toRemove):
+                            toRemove.append(possibilities[possibility][f])
             for cell in range(9):
                 for digit in range(len(toRemove)):
-                    if not (self.grid[cell][column].returnPossibilities() in pairs):
+                    if not (self.grid[row][cell].returnPossibilities() == toRemove):
+                        self.grid[row][cell].removePossibility(toRemove[digit])
+        #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
+        if self.getGridValues() == starterGrid:
+            return False
+        else:
+            return True
+
+    def pairInColumn(self):
+        #Iterates through each column of the grid and searches for cells with only two possibilities, if such a cell exists, it is appended to the list of possibilities
+        starterGrid = self.getGridValues()
+        for column in range(9):
+            possibilities = []
+            for cell in range(9):
+                if len(self.grid[cell][column].returnPossibilities()) == 2:
+                    possibilities.append(self.grid[cell][column].returnPossibilities())
+            toRemove = []
+            #Iterates through the list of possibilities, if a set of possibilities appears twice, it is a pair and so each digit in that pair is appended to a list of digits to remove, and so is removed from every other cell except for the cells which form the pairs
+            for possibility in range(len(possibilities)):
+                if possibilities.count(possibilities[possibility]) == 2:
+                    for f in range(len(possibilities[possibility])):
+                        if not(possibilities[possibility][f] in toRemove):
+                            toRemove.append(possibilities[possibility][f])
+            for cell in range(9):
+                for digit in range(len(toRemove)):
+                    if not (self.grid[cell][column].returnPossibilities() == toRemove):
                         self.grid[cell][column].removePossibility(toRemove[digit])
-            if self.getGridValues == starterGrid:
-                return False
-            else:
-                return True
+        #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
+        if self.getGridValues == starterGrid:
+            return False
+        else:
+            return True
 
     def pairInBox(self):
         starterGrid = self.getGridValues()
+        #Iterates through each box of the grid and searches for cells with only two possibilities, if such a cell exists, it is appended to the list of possibilities
         for box in range(9):
-            pairs = []
+            possibilities = []
             for row in range(3):
                 for cell in range(3):
                     if len(self.boxes[box][row][cell].returnPossibilities()) == 2:
-                        pairs.append(self.boxes[box][row][cell].returnPossibilities())
+                        possibilities.append(self.boxes[box][row][cell].returnPossibilities())
             toRemove = []
-            for possibilities in range(len(pairs)):
-                if pairs.count(pairs[possibilities]) == 2:
-                    for f in range(len(pairs[possibilities])):
-                        if not(pairs[possibilities][f] in toRemove):
-                            toRemove.append(pairs[possibilities][f])
+            #Iterates through the list of possibilities, if a set of possibilities appears twice, it is a pair and so each digit in that pair is appended to a list of digits to remove, and so is removed from every other cell except for the cells which form the pairs
+            for possibility in range(len(possibilities)):
+                if possibilities.count(possibilities[possibility]) == 2:
+                    for f in range(len(possibilities[possibility])):
+                        if not(possibilities[possibility][f] in toRemove):
+                            toRemove.append(possibilities[possibility][f])
                 for row in range(3):
                     for cell in range(3):
                         for digit in range(len(toRemove)):
-                            if not (self.boxes[box][row][cell].returnPossibilities()) in pairs:
+                            if not (self.boxes[box][row][cell].returnPossibilities() == toRemove):
                                 self.boxes[box][row][cell].removePossibility(toRemove[digit])
+        #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
         if self.getGridValues == starterGrid:
             return False
         else:
@@ -317,6 +326,10 @@ class Strategies:
         self.digitInRow()
         self.digitInColumn()
         self.digitInBox()
+        
+    def pairTest(self):
+        self.removeDigits()
         self.pairInRow()
         self.pairInColumn()
         self.pairInBox()
+        return self.getGridValues()
