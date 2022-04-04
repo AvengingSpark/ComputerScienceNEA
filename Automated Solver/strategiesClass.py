@@ -57,7 +57,7 @@ class Strategies:
                             toRemove.append(possibilities[possibility][f])
             for cell in range(9):
                 for digit in range(len(toRemove)):
-                    if not (self.grid[row][cell].returnPossibilities() == toRemove):
+                    if (len(self.grid[row][cell].returnPossibilities()) != 2):
                         self.grid[row][cell].removePossibility(toRemove[digit])
         #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
         if self.getGridValues() == starterGrid:
@@ -82,7 +82,7 @@ class Strategies:
                             toRemove.append(possibilities[possibility][f])
             for cell in range(9):
                 for digit in range(len(toRemove)):
-                    if not (self.grid[cell][column].returnPossibilities() == toRemove):
+                    if len(self.grid[cell][column].returnPossibilities()) != 2:
                         self.grid[cell][column].removePossibility(toRemove[digit])
         #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
         if self.getGridValues == starterGrid:
@@ -109,7 +109,7 @@ class Strategies:
                 for row in range(3):
                     for cell in range(3):
                         for digit in range(len(toRemove)):
-                            if not (self.boxes[box][row][cell].returnPossibilities() == toRemove):
+                            if (len(self.boxes[box][row][cell].returnPossibilities()) != 2):
                                 self.boxes[box][row][cell].removePossibility(toRemove[digit])
         #Checks whether the state of the grid at the start is the same at the end of the function, if so return true to start the main loop again
         if self.getGridValues == starterGrid:
@@ -307,7 +307,8 @@ class Strategies:
 
 
     def checkClashes(self):
-        return self.checkClashesInRow() or self.checkClashesInColumn() or self.checkClashesInBox()
+        thing = self.checkClashesInRow() or self.checkClashesInColumn() or self.checkClashesInBox()
+        return thing
     
     def returnClashes(self):
         clashes = []

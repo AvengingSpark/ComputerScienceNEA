@@ -107,7 +107,7 @@ class SudokuGrid(Strategies):
             if t.time() - start >= 5:
                 return self.getGridValues()
             if self.checkClashes():
-                print("Puzzle Broken")
+                return self.getGridValues()
                 break
             self.removeDigits()
             if self.singleInRow():
@@ -118,7 +118,7 @@ class SudokuGrid(Strategies):
                 continue
             elif self.pairInRow():
                 continue
-            elif self.pairInColumn():
+            elif self.pairInColumn():                
                 continue
             elif self.pairInBox():
                 continue

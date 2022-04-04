@@ -35,7 +35,7 @@ class UI:
             self.root = Tk()
             self.root.title("Sudoku Autosolver")
             self.root.state("zoomed")
-            # self.root.iconbitmap("icon.ico")
+            self.root.iconbitmap("icon.ico")
             self.root.configure(bg="black")
             
             
@@ -235,7 +235,7 @@ class SudokuBoard(UI):
         #If the alt key is held whilst a key is pressed, the digit written to the cell will be a pencil mark found within the centre of a cell
         for f in range(len(self.canvasList)):
             if letter.isdigit() and letter != "0" and self.canvasList[f]["background"] == "white" and self.canCreatePencilMark(f):
-                self.canvasList[f].create_text((30+(12*((int(letter)-1)%3))),(30+(12*((int(letter)-1)//3))), text=letter, anchor=CENTER, fill="black", font=("OCR A Extended", 8), tag="centrePencil")
+                self.canvasList[f].create_text((30+(12*((int(letter)-1)%3))),(30+(12*((int(letter)-1)//3))), text=letter, anchor=CENTER, fill="black", font=("OCR A Extended", 12), tag="centrePencil")
             
     def deleteNum(self):
         #This will delete all digits from the cell
@@ -368,17 +368,16 @@ class SudokuBoard(UI):
 
     def generateWidgets(self):
         #Creates all buttons and places them onto the grid
-        # self.createButton(1460, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createButton(1460, 470, "Autosolve Puzzle", command=lambda: self.autosolve())
         self.createEntry(1460, 350)
         self.createButton(1460, 250, "Enter Puzzle", command=lambda: self.updateGrid(self.entryList[0].get()))
         self.createButton(1460, 590, "Check Puzzle", command=lambda: self.checkGrid())
         self.createButton(1460, 710, "Clear Puzzle", command=lambda: self.clearGrid())
         #Creates a button which is an image and places it onto the screen
-        # img = ImageTk.PhotoImage(Image.open("QuestionMark.png").resize((100,100)))
-        # panel = Label(self.root, image=img)
-        # panel.photo = img
-        # Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
+        img = ImageTk.PhotoImage(Image.open("QuestionMark.png").resize((100,100)))
+        panel = Label(self.root, image=img)
+        panel.photo = img
+        Button(self.root, image=img, bd=0, command= lambda: self.createInstruction()).place(x=10, y=10)
         #Instantiates the relevant event listeners for both pencil mark alerts
         self.root.bind("<Control-Any-KeyPress>", lambda event: self.cornerPencilAlert())
         self.root.bind("<Alt-Any-KeyPress>", lambda event: self.centrePencilAlert())
